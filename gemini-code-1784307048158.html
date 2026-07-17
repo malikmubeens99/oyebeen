@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Predictor & AI Career Finder - OYEBEEN'S</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-base: #ffffff;
+            --bg-surface: #f2fbf6;
+            --text-primary: #06231a;
+            --text-secondary: #2f5c4a;
+            --text-tertiary: #6f9385;
+            --accent: #059669;
+            --mint-100: #ecfdf5;
+            --mint-200: #d1fae5;
+            --mint-300: #a7f3d0;
+            --mint-700: #059669;
+            --mint-800: #047857;
+            --accent-glow: rgba(5, 150, 105, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.015; pointer-events: none; z-index: 9999;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--mint-200);
+            padding: 16px 40px;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-container { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--mint-800); text-decoration: none; }
+
+        .main-content { max-width: 850px; margin: 50px auto; padding: 0 20px; box-sizing: border-box; }
+        .calc-page-header { text-align: center; margin-bottom: 35px; }
+        .calc-page-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.8rem; margin: 0; color: var(--text-primary); }
+        .text-outline { -webkit-text-stroke: 2px var(--mint-700); color: transparent; }
+        .calc-page-subtitle { color: var(--text-secondary); margin-top: 10px; font-size: 1.05rem; }
+
+        .calc-card {
+            background: #ffffff;
+            border: 1px solid var(--mint-200);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 30px 70px -30px var(--accent-glow);
+        }
+
+        .input-card { background: var(--mint-100); border: 1px solid var(--mint-200); border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+        .form-label { display: block; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+        
+        .uni-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .uni-btn, .mode-btn {
+            padding: 10px 18px; border: 1px solid var(--mint-300); background: #ffffff;
+            color: var(--text-secondary); font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .uni-btn:hover, .mode-btn:hover { background: var(--mint-200); color: var(--mint-800); }
+        .uni-btn.active, .mode-btn.active { background: var(--mint-700) !important; color: #ffffff !important; border-color: var(--mint-800); box-shadow: 0 4px 12px var(--accent-glow); }
+
+        select {
+            width: 100%; padding: 12px 14px; font-size: 0.95rem; font-family: 'Inter', sans-serif;
+            border: 1px solid var(--mint-300); border-radius: 10px; background: #ffffff; color: var(--text-primary);
+            cursor: pointer; font-weight: 500;
+        }
+
+        .formula-heading { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--mint-800); margin: 24px 0 16px; padding-left: 4px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media(max-width: 600px) { .form-grid { grid-template-columns: 1fr; gap: 14px; } }
+
+        .input-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+        input {
+            width: 100%; padding: 12px 14px; font-size: 0.95rem; box-sizing: border-box;
+            border: 1px solid var(--mint-300); border-radius: 10px; background: #ffffff; color: var(--text-primary);
+        }
+        .readonly-input { background: rgba(0,0,0,0.02); cursor: not-allowed; border-color: var(--mint-200); font-weight: 500; }
+        .separator { font-weight: 700; color: var(--text-tertiary); font-size: 1.1rem; }
+
+        .btn-submit {
+            background: var(--mint-700); color: #ffffff; border: 1px solid var(--mint-800);
+            padding: 14px; font-weight: 600; font-size: 1rem; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 24px;
+        }
+        .btn-submit:hover { background: var(--mint-800); transform: translateY(-1px); }
+
+        /* QUIZ ENGINE STYLING */
+        .quiz-container { display: none; margin-top: 10px; }
+        .quiz-container.visible { display: block; animation: fadeInUp 0.4s ease; }
+        .lang-box { background: #ffffff; border: 1px solid var(--mint-200); border-radius: 16px; padding: 32px; text-align: center; }
+        
+        /* Lead Form Info Box styling */
+        .quiz-lead-box { background: var(--mint-100); border: 1px solid var(--mint-300); border-radius: 16px; padding: 24px; margin-bottom: 24px; text-align: left; }
+
+        .quiz-question-box { 
+            display: none; 
+            background: #ffffff; 
+            border: 1px solid var(--mint-200); 
+            border-radius: 16px; 
+            padding: 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .quiz-question-box.active-question { 
+            display: block; 
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        
+        .quiz-question { font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        
+        .quiz-option-label {
+            display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+            background: var(--bg-base); border: 1px solid var(--mint-200); border-radius: 10px;
+            font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease;
+        }
+        .quiz-option-label:hover { background: var(--mint-100); border-color: var(--mint-400); transform: translateX(2px); }
+        .quiz-option-label input[type="radio"] { width: auto; margin: 0; cursor: pointer; accent-color: var(--mint-700); }
+
+        .quiz-progress-wrapper { display: none; align-items: center; justify-content: space-between; margin-top: 16px; padding: 0 4px; }
+        .quiz-progress-text { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+        .quiz-bar-container { background: #e2e8f0; height: 6px; border-radius: 10px; width: 70%; overflow: hidden; }
+        .quiz-bar-fill { background: var(--mint-700); height: 100%; width: 0%; transition: width 0.3s ease; }
+
+        /* QUIZ RESULTS DISPLAY SCREEN */
+        .quiz-results-screen { display: none; animation: scaleUpPage 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .quiz-results-screen.visible { display: block; }
+        
+        .celebration-badge {
+            background: var(--mint-100); border: 1px solid var(--mint-300); color: var(--mint-800);
+            padding: 8px 20px; font-weight: 700; border-radius: 30px; font-size: 0.88rem;
+            display: inline-block; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;
+        }
+        
+        .interest-chart-box { background: #ffffff; border-radius: 16px; border: 1px solid var(--mint-200); padding: 24px; margin: 24px 0; }
+        .chart-row { margin-bottom: 16px; }
+        .chart-label-flex { display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; color: var(--text-primary); }
+        .track-bar { background: #e2e8f0; height: 16px; border-radius: 20px; overflow: hidden; width: 100%; }
+        .fill-bar { background: linear-gradient(90deg, #10b981, #059669) !important; height: 100%; border-radius: 20px; width: 0%; transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1); }
+
+        .back-to-predictor-btn {
+            background: #ffffff; border: 2px solid var(--mint-700); color: var(--mint-800);
+            padding: 14px 20px; font-weight: 700; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 24px; transition: all 0.2s;
+            text-align: center; display: block; text-decoration: none; box-sizing: border-box;
+        }
+        .back-to-predictor-btn:hover { background: var(--mint-700); color: white; }
+
+        /* PREDICTION ENGINE LAYOUTS */
+        .result-section { display: none; margin-top: 32px; animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .result-section.visible { display: block; }
+        .aggregate-dashboard { background: linear-gradient(135deg, var(--mint-700) 0%, var(--mint-800) 100%); color: #ffffff; border-radius: 18px; padding: 24px; text-align: center; box-shadow: 0 15px 35px -10px var(--accent-glow); margin-bottom: 28px; }
+        .agg-label { font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.85; font-weight: 500; }
+        .agg-score { font-family: 'Space Grotesk', sans-serif; font-size: 3.2rem; font-weight: 700; margin: 4px 0; }
+        .agg-uni-tag { font-size: 0.95rem; font-weight: 500; background: rgba(255,255,255,0.15); display: inline-block; padding: 4px 14px; border-radius: 20px; }
+
+        .report-insight-banner {
+            background: var(--mint-100); border: 1px dashed var(--mint-600); color: var(--text-primary);
+            padding: 14px; border-radius: 12px; margin-bottom: 24px; font-size: 0.92rem; font-weight: 500; line-height: 1.5;
+        }
+
+        .prediction-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+        .city-group-container { margin-bottom: 24px; }
+        .city-header { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--mint-800); background: var(--mint-100); padding: 8px 16px; border-radius: 8px; margin-bottom: 12px; display: inline-block; }
+        .fields-list-grid { display: flex; flex-direction: column; gap: 10px; }
+        .field-row { display: flex; align-items: center; justify-content: space-between; background: #ffffff; border: 1px solid var(--mint-200); border-radius: 12px; padding: 14px 18px; }
+        
+        .badge { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; padding: 5px 12px; border-radius: 6px; text-align: center; min-width: 100px; }
+        .badge-safe { background: rgba(16, 185, 129, 0.12); color: #065f46; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge-likely { background: rgba(59, 130, 246, 0.12); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-challenging { background: rgba(239, 68, 68, 0.1); color: #991b1b; border: 1px solid rgba(239, 68, 68, 0.15); }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleUpPage { from { transform: scale(0.97); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes slideInRight { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">OYEBEEN'S</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;" id="modeTabsWrapper">
+            <button class="mode-btn active" id="predictorModeBtn" onclick="switchTabMode('predictor')">Admission Predictor</button>
+            <button class="mode-btn" id="quizModeBtn" onclick="switchTabMode('quiz')">🚀 Career Finder Quiz</button>
+        </div>
+
+        <div id="quizSection" class="quiz-container">
+            <div class="calc-page-header">
+                <h1 class="calc-page-title">Career <span class="text-outline">Finder</span></h1>
+                <p class="calc-page-subtitle">Answer simple practical questions sequentially to discover your field profile.</p>
+            </div>
+            
+            <div id="langSelectorBox" class="lang-box">
+                <!-- User Information Leads Gateway Box -->
+                <div class="quiz-lead-box">
+                    <h4 style="margin: 0 0 12px 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; color: var(--mint-800);">Enter Details to Start Quiz</h4>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">Your Full Name</label>
+                            <input type="text" id="visitorName" placeholder="e.g. Ali Ahmed" style="margin-top:4px;">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">WhatsApp Number</label>
+                            <input type="tel" id="visitorWhatsapp" placeholder="e.g. 03001234567" style="margin-top:4px;">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;">Select Quiz Language / Apni Zuban Select Karein</h3>
+                <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 14px;">
+                    <button type="button" class="uni-btn" style="padding: 12px 24px;" onclick="validateLeadFormAndStart('english')">English</button>
+                    <button type="button" class="uni-btn" style="padding: 12px 24px;" onclick="validateLeadFormAndStart('roman')">Roman English (Urdu)</button>
+                </div>
+            </div>
+
+            <div id="quizQuestionsArea" style="display: none; margin-top: 20px;">
+                <form id="careerQuizForm" onsubmit="event.preventDefault();">
+                    <div id="quizQuestionsWrapper"></div>
+                    <div class="quiz-progress-wrapper" id="quizProgressWrapper">
+                        <span class="quiz-progress-text" id="quizProgressText">Question 1 of 5</span>
+                        <div class="quiz-bar-container">
+                            <div class="quiz-bar-fill" id="quizBarFill"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="quizResultsScreen" class="quiz-results-screen main-content" style="margin: 0; padding: 0;">
+            <div class="calc-page-header">
+                <div class="celebration-badge">✨ AI Analysis Complete</div>
+                <h1 class="calc-page-title">Your Interest <span class="text-outline">Mapping</span></h1>
+                <p class="calc-page-subtitle" id="quizMainVerdictText">Your optimal path profile insights based on interest models.</p>
+            </div>
+
+            <div class="calc-card">
+                <div class="interest-chart-box">
+                    <div class="chart-row">
+                        <div class="chart-label-flex"><span>Computing Fields (CS/SE/AI/DS)</span><span id="pct-computing">0%</span></div>
+                        <div class="track-bar"><div class="fill-bar" id="bar-computing"></div></div>
+                    </div>
+                    <div class="chart-row" style="margin-top:16px;">
+                        <div class="chart-label-flex"><span>Engineering Core Streams</span><span id="pct-engineering">0%</span></div>
+                        <div class="track-bar"><div class="fill-bar" id="bar-engineering"></div></div>
+                    </div>
+                    <div class="chart-row" style="margin-top:16px;">
+                        <div class="chart-label-flex"><span>Business & Management Streams</span><span id="pct-business">0%</span></div>
+                        <div class="track-bar"><div class="fill-bar" id="bar-business"></div></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="prediction-title" style="margin-bottom:12px;">Recommended Fields For You:</div>
+                    <div class="fields-list-grid" id="recommendedFieldsList"></div>
+                </div>
+
+                <button type="button" class="back-to-predictor-btn" id="moveToPredictorBtn" onclick="proceedToChancesEngine()">Proceed with this Stream to Predict University Chances &rarr;</button>
+            </div>
+        </div>
+
+        <div id="predictorSection">
+            <div class="calc-page-header">
+                <h1 class="calc-page-title">Admission <span class="text-outline">Predictor</span></h1>
+                <p class="calc-page-subtitle">Latest official criteria formulas and deep multi-campus selection predictions.</p>
+            </div>
+
+            <div class="calc-card">
+                <div class="input-card">
+                    <label class="form-label">Select Target University</label>
+                    <div class="uni-grid">
+                        <button type="button" id="btn-uet" class="uni-btn active" onclick="changeTargetUniversity('uet')">UET (Taxila / Lhr)</button>
+                        <button type="button" id="btn-fast" class="uni-btn" onclick="changeTargetUniversity('fast')">FAST-NUCES</button>
+                        <button type="button" id="btn-nust" class="uni-btn" onclick="changeTargetUniversity('nust')">NUST</button>
+                        <button type="button" id="btn-giki" class="uni-btn" onclick="changeTargetUniversity('giki')">GIKI Swabi</button>
+                        <button type="button" id="btn-comsats" class="uni-btn" onclick="changeTargetUniversity('comsats')">COMSATS</button>
+                        <button type="button" id="btn-pu" class="uni-btn" onclick="changeTargetUniversity('pu')">Punjab University (PU)</button>
+                    </div>
+                </div>
+
+                <div class="input-card">
+                    <label class="form-label">Select Program Stream Category</label>
+                    <select id="programCategory" onchange="syncLabels()">
+                        <option value="computing">Computing Fields (CS, SE, AI, DS, Cyber Security)</option>
+                        <option value="engineering">Engineering Fields (Mechanical, Electrical, Civil, etc.)</option>
+                        <option value="business">Business & Social Sciences (BBA, ACF, Architecture)</option>
+                    </select>
+                </div>
+
+                <div id="formulaHeading" class="formula-heading">Target Formula Setup: UET Official Formula (17% Matric, 50% FSc, 33% ECAT)</div>
+
+                <form id="predictorEngineForm" onsubmit="calculateAdmissionChances(event)">
+                    <div class="form-grid">
+                        <div class="input-card" style="margin:0;">
+                            <label class="form-label">Matric / O-Level Score</label>
+                            <div class="input-row">
+                                <input type="number" id="mObt" placeholder="Obtained" required min="1">
+                                <span class="separator">/</span>
+                                <input type="number" id="mTot" value="1100" required min="1">
+                            </div>
+                        </div>
+
+                        <div class="input-card" style="margin:0;">
+                            <label class="form-label">Intermediate Marks</label>
+                            <div class="input-row">
+                                <input type="number" id="iObt" placeholder="Obtained" required min="1">
+                                <span class="separator">/</span>
+                                <input type="number" id="iTot" value="1100" required min="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="margin-top: 16px;">
+                        <div class="input-card" style="margin:0;">
+                            <label class="form-label">Exam Category</label>
+                            <input type="text" id="testLabel" value="ECAT Test Score" readonly class="readonly-input">
+                        </div>
+
+                        <div class="input-card" style="margin:0;">
+                            <label class="form-label">Entry Test Score</label>
+                            <div class="input-row">
+                                <input type="number" id="tObt" placeholder="Obtained" required min="0">
+                                <span class="separator">/</span>
+                                <input type="number" id="tTot" value="400" readonly class="readonly-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Generate Comprehensive Prediction Report &rarr;</button>
+                </form>
+
+                <div id="reportSection" class="result-section">
+                    <div class="aggregate-dashboard">
+                        <div class="agg-label">Your Calculated Merit Score</div>
+                        <div class="agg-score" id="computedScore">00.00%</div>
+                        <div class="agg-uni-tag" id="targetUniLabel">EVALUATION REPORT</div>
+                    </div>
+
+                    <div id="reportInsightBox" class="report-insight-banner"></div>
+
+                    <div>
+                        <div class="prediction-title">Complete Campus & Selection Probability Analysis</div>
+                        <div id="predictionCampusesWrapper"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const database = {
+            uet: {
+                testName: "ECAT Test Score", total: 400,
+                formulas: {
+                    computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) },
+                    engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) },
+                    business: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) }
+                },
+                campuses: {
+                    "Lahore (Main Campus)": [
+                        { name: "BS Computer Science", cutoff: 76.5, cat: "computing" }, { name: "BS Data Science", cutoff: 72.8, cat: "computing" }, { name: "BS Artificial Intelligence", cutoff: 74.0, cat: "computing" }, { name: "BS Cyber Security", cutoff: 73.5, cat: "computing" }, { name: "BS Computer Engineering", cutoff: 71.0, cat: "computing" }, { name: "Architecture", cutoff: 65.0, cat: "business" }, { name: "BS Architectural Engineering", cutoff: 63.5, cat: "engineering" }, { name: "BS Mechanical Engineering", cutoff: 68.0, cat: "engineering" }, { name: "BS Electrical Engineering", cutoff: 66.5, cat: "engineering" }, { name: "BS Civil Engineering", cutoff: 65.0, cat: "engineering" }, { name: "BS Mechatronics & Control Engineering", cutoff: 64.0, cat: "engineering" }, { name: "BS Chemical Engineering", cutoff: 62.5, cat: "engineering" }, { name: "BS Automotive Engineering", cutoff: 59.5, cat: "engineering" }, { name: "BS Petroleum & Gas Engineering", cutoff: 58.0, cat: "engineering" }, { name: "BS City & Regional Planning", cutoff: 55.5, cat: "business" }, { name: "BS Industrial & Manufacturing Engineering", cutoff: 56.0, cat: "engineering" }, { name: "BS Metallurgical & Materials Engineering", cutoff: 54.0, cat: "engineering" }, { name: "BS Environmental Engineering", cutoff: 53.0, cat: "engineering" }, { name: "BS Product & Industrial Design", cutoff: 55.0, cat: "business" }, { name: "BS Geological Engineering", cutoff: 52.0, cat: "engineering" }
+                    ],
+                    "Taxila Campus": [
+                        { name: "BS Software Engineering", cutoff: 72.0, cat: "computing" }, { name: "BS Computer Science", cutoff: 71.5, cat: "computing" }, { name: "BS Computer Engineering", cutoff: 66.0, cat: "computing" }, { name: "BS Mechatronics Engineering", cutoff: 61.5, cat: "engineering" }, { name: "BS Mechanical Engineering", cutoff: 63.0, cat: "engineering" }, { name: "BS Civil Engineering", cutoff: 62.0, cat: "engineering" }, { name: "BS Electrical Engineering", cutoff: 61.0, cat: "engineering" }, { name: "BS Electronics Engineering", cutoff: 57.0, cat: "engineering" }, { name: "BS Telecommunication Engineering", cutoff: 55.5, cat: "engineering" }, { name: "BS Industrial Engineering", cutoff: 55.0, cat: "engineering" }, { name: "BS Environmental Engineering", cutoff: 52.5, cat: "engineering" }
+                    ]
+                }
+            },
+            fast: {
+                testName: "NU Test Score", total: 100,
+                formulas: {
+                    computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
+                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: (m, i, t) => (m * 15) + (i * 35) + (t * 50) },
+                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: (m, i, t) => (m * 0) + (i * 50) + (t * 50) }
+                },
+                campuses: {
+                    "Lahore Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 74.5, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 73.0, cat: "computing" }, { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, { name: "Data Science (BS DS)", cutoff: 69.0, cat: "computing" }, { name: "Electrical Engineering", cutoff: 56.5, cat: "engineering" }, { name: "Civil Engineering", cutoff: 55.0, cat: "engineering" }
+                    ],
+                    "Islamabad Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 75.0, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 73.5, cat: "computing" }, { name: "Cyber Security (BS CY)", cutoff: 71.5, cat: "computing" }
+                    ]
+                }
+            },
+            nust: {
+                testName: "NET Exam Score", total: 200,
+                formulas: {
+                    computing: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
+                    engineering: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
+                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: (m, i, t) => (m * 25) + (i * 0) + (t * 75) }
+                },
+                campuses: {
+                    "Islamabad Main Campus (H-12)": [
+                        { name: "Software Engineering (SEECS)", cutoff: 78.5, cat: "computing" }, { name: "Computer Science (SEECS)", cutoff: 77.0, cat: "computing" }, { name: "Data Science", cutoff: 74.0, cat: "computing" }, { name: "Mechanical Engineering (SMME)", cutoff: 69.0, cat: "engineering" }, { name: "Civil Engineering (NICE)", cutoff: 64.5, cat: "engineering" }, { name: "BBA Business Administration", cutoff: 76.0, cat: "business" }
+                    ]
+                }
+            },
+            giki: {
+                testName: "GIKI Test Score", total: 100,
+                formulas: {
+                    computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) },
+                    engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) },
+                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) }
+                },
+                campuses: {
+                    "Swabi Main Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 72.0, cat: "computing" }, { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, { name: "Mechanical Engineering", cutoff: 62.0, cat: "engineering" }, { name: "Management Sciences (BBA)", cutoff: 56.0, cat: "business" }
+                    ]
+                }
+            },
+            comsats: {
+                testName: "NTS NAT Score", total: 100,
+                formulas: {
+                    computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
+                    engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
+                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) }
+                },
+                campuses: {
+                    "Islamabad Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 86.5, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 84.8, cat: "computing" }, { name: "BBA Program", cutoff: 74.0, cat: "business" }
+                    ],
+                    "Lahore Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 84.0, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 82.5, cat: "computing" }, { name: "Electrical Engineering", cutoff: 71.0, cat: "engineering" }
+                    ]
+                }
+            },
+            pu: {
+                testName: "PU Entry Test Score", total: 100,
+                formulas: {
+                    computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
+                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
+                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: (m, i, t) => (m * 25) + (i * 75) + (t * 0) }
+                },
+                campuses: {
+                    "Lahore (Main Campus)": [
+                        { name: "BS Computer Science (PUCIT)", cutoff: 88.5, cat: "computing" }, { name: "BS Software Engineering (PUCIT)", cutoff: 87.2, cat: "computing" }, { name: "B.Sc Chemical Engineering", cutoff: 75.0, cat: "engineering" }, { name: "BBA Honors", cutoff: 81.5, cat: "business" }
+                    ]
+                }
+            }
+        };
+
+        let currentUni = "uet";
+        let tempRecommendedStream = "computing";
+
+        const predModeBtn = document.getElementById('predictorModeBtn');
+        const quizModeBtn = document.getElementById('quizModeBtn');
+        const predSec = document.getElementById('predictorSection');
+        const quizSec = document.getElementById('quizSection');
+        const quizResScreen = document.getElementById('quizResultsScreen');
+        const tabsRow = document.getElementById('modeTabsWrapper');
+
+        function switchTabMode(mode) {
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            if(mode === 'predictor') {
+                document.getElementById('predictorModeBtn').classList.add('active');
+                predSec.style.display = "block"; quizSec.classList.remove('visible'); quizResScreen.classList.remove('visible'); tabsRow.style.display = "flex";
+            } else {
+                document.getElementById('quizModeBtn').classList.add('active');
+                quizSec.classList.add('visible'); predSec.style.display = "none"; quizResScreen.classList.remove('visible'); tabsRow.style.display = "flex";
+                document.getElementById('langSelectorBox').style.display = "block";
+                document.getElementById('quizQuestionsArea').style.display = "none";
+                document.getElementById('quizProgressWrapper').style.display = "none";
+            }
+        }
+
+        function changeTargetUniversity(uniKey) {
+            currentUni = uniKey;
+            document.querySelectorAll('.uni-grid .uni-btn').forEach(b => b.classList.remove('active'));
+            const targetedBtn = document.getElementById(`btn-${uniKey}`);
+            if(targetedBtn) targetedBtn.classList.add('active');
+            syncLabels();
+        }
+
+        function syncLabels() {
+            const selected = database[currentUni];
+            const currentCat = document.getElementById('programCategory').value;
+            if (selected) {
+                document.getElementById('formulaHeading').textContent = `Target Formula Setup: ${selected.formulas[currentCat].heading}`;
+                document.getElementById('testLabel').value = selected.testName;
+                document.getElementById('tTot').value = selected.total;
+                document.getElementById('reportSection').classList.remove('visible');
+            }
+        }
+
+        // Global variables for user metadata capture
+        let activeVisitorName = "Anonymous User";
+        let activeVisitorWhatsapp = "Not Provided";
+
+        function validateLeadFormAndStart(langKey) {
+            const nameInput = document.getElementById('visitorName').value.trim();
+            const whatsappInput = document.getElementById('visitorWhatsapp').value.trim();
+
+            if(nameInput === "" || whatsappInput === "") {
+                alert("Please enter both your Name and WhatsApp Number to begin the AI Career Quiz.");
+                return;
+            }
+            
+            activeVisitorName = nameInput;
+            activeVisitorWhatsapp = whatsappInput;
+            
+            // Trigger Firebase track log for Lead registration setup
+            if(window.triggerFirebaseLeadRegistration) {
+                window.triggerFirebaseLeadRegistration(activeVisitorName, activeVisitorWhatsapp);
+            }
+
+            startQuizWithLanguage(langKey);
+        }
+
+        const localizedQuestions = {
+            english: [
+                { q: "What kind of problems do you enjoy solving the most?", options: { computing: "Creating logic, coding or automating repetitive daily tasks", engineering: "Fixing gadgets, understanding mechanics or machine operations", business: "Managing money matters, marketing or leading a small team setup" } },
+                { q: "If given a weekend project, you would choose to:", options: { computing: "Build a website, launch a simple mobile app or make a macro script", engineering: "Deconstruct an engine, fix home wiring or design a 3D architecture structure", business: "Analyze stock profiles, pitch a startup idea or run a trade match" } },
+                { q: "Which subject line caught your maximum interest during college?", options: { computing: "Mathematics / Computer Science Foundations", engineering: "Physics Core / Practical Applied Mechanics", business: "Economics, Statistics, or Management Modules" } },
+                { q: "Your ideal daily workspace environment would be:", options: { computing: "Sitting at a clean desk environment working directly inside code compilers", engineering: "Visiting on-site structural constructions or assembly plants floors", business: "Presenting boardroom pitches or meeting enterprise financial clients" } },
+                { q: "When tech innovations hit market segments, what excites you most?", options: { computing: "The background code algorithms, AI models architectures and automation", engineering: "The hardware modifications, speed of components and solid microchips", business: "The valuation figures, sales metrics and marketing strategies deployed" } }
+            ],
+            roman: [
+                { q: "Aapko kis tarah ke masle solve karne mein sabse zyada maza aata hai?", options: { computing: "Logic banana, coding karna ya daily tasks ko automate karna", engineering: "Gadgets theek karna, machines ya mechanics ka kaam samajhna", business: "Paison ka hisab, marketing karna ya kisi team ko lead karna" } },
+                { q: "Agar aapko weekend par koi project banana ho, toh aap kya chunenge?", options: { computing: "Koi website banana, mobile app launch karna ya coding script likhna", engineering: "Kisi cheez ka engine kholna, wiring theek karna ya 3D design banana", business: "Stock market analyze karna, startup idea pitch karna ya business deal chalana" } },
+                { q: "College mein kis subject ne aapka interest sabse zyada khoncha?", options: { computing: "Mathematics / Computer Science ki basics", engineering: "Physics ya practical applied machinery ka kaam", business: "Economics, Statistics, ya Business Management ke modules" } },
+                { q: "Aapke mutabiq aapka ideal daily office environment kaisa hona chahiye?", options: { computing: "Aik saaf desk par baith kar direct software compilers par kaam karna", engineering: "Construction sites par jaana ya mechanical plants ka visit karna", business: "Boardroom mein pitches dena ya bade financial clients se milna" } },
+                { q: "Jab market mein koi nayi technology aati hai, toh aapko sabse zyada kya excite karta hai?", options: { computing: "Uska background code algorithm, AI model aur automation systems", engineering: "Uska hardware engineering, components ki speed aur solid microchips", business: "Uske valuation figures, market shares aur launch hone ki strategy" } }
+            ]
+        };
+
+        let currentActiveQuestionsPool = [];
+        let currentQuestionIndex = 0;
+        let quizAnswersCollected = {};
+
+        function startQuizWithLanguage(langKey) {
+            currentActiveQuestionsPool = localizedQuestions[langKey];
+            quizAnswersCollected = {};
+            
+            const quizWrapper = document.getElementById('quizQuestionsWrapper');
+            quizWrapper.innerHTML = "";
+            
+            currentActiveQuestionsPool.forEach((item, index) => {
+                let optionsHTML = "";
+                for(const key in item.options) { 
+                    optionsHTML += `
+                        <label class="quiz-option-label" onclick="handleOptionSelect(${index}, '${key}')">
+                            <input type="radio" name="q${index}" value="${key}">
+                            <span>${item.options[key]}</span>
+                        </label>
+                    `; 
+                }
+                quizWrapper.innerHTML += `<div class="quiz-question-box" id="qBox-${index}"><div class="quiz-question">${index+1}. ${item.q}</div><div class="quiz-options">${optionsHTML}</div></div>`;
+            });
+
+            document.getElementById('langSelectorBox').style.display = "none";
+            document.getElementById('quizQuestionsArea').style.display = "block";
+            document.getElementById('quizProgressWrapper').style.display = "flex";
+            
+            showQuestion(0);
+        }
+
+        function showQuestion(idx) {
+            currentQuestionIndex = idx;
+            document.querySelectorAll('.quiz-question-box').forEach(box => box.classList.remove('active-question'));
+            
+            const currentBox = document.getElementById(`qBox-${idx}`);
+            if(currentBox) {
+                currentBox.classList.add('active-question');
+                const progressPct = ((idx + 1) / currentActiveQuestionsPool.length) * 100;
+                document.getElementById('quizProgressText').textContent = `Question ${idx + 1} of ${currentActiveQuestionsPool.length}`;
+                document.getElementById('quizBarFill').style.width = `${progressPct}%`;
+            }
+        }
+
+        function handleOptionSelect(qIdx, optionKey) {
+            quizAnswersCollected[qIdx] = optionKey;
+            setTimeout(() => {
+                if (qIdx + 1 < currentActiveQuestionsPool.length) {
+                    showQuestion(qIdx + 1);
+                } else {
+                    evaluateQuizResults();
+                }
+            }, 250);
+        }
+
+        const fieldSuggestions = {
+            computing: ["Computer Science (BS CS)", "Software Engineering (BS SE)", "Artificial Intelligence (BS AI)", "Data Science (BS DS)", "Cyber Security (BS CY)", "Computer Engineering"],
+            engineering: ["Mechanical Engineering", "Electrical Engineering", "Civil Engineering", "Mechatronics Engineering", "Chemical Engineering", "Architectural Engineering"],
+            business: ["Business Administration (BBA)", "Accounting & Finance (ACF)", "Architecture & Design", "Product & Industrial Design", "Business Analytics"]
+        };
+
+        function evaluateQuizResults() {
+            let scores = { computing: 0, engineering: 0, business: 0 };
+            for(let i=0; i<currentActiveQuestionsPool.length; i++) {
+                const choice = quizAnswersCollected[i];
+                if(choice) scores[choice]++;
+            }
+
+            let totalAnswers = currentActiveQuestionsPool.length;
+            let compPct = Math.round((scores.computing / totalAnswers) * 100);
+            let engPct = Math.round((scores.engineering / totalAnswers) * 100);
+            let bizPct = Math.round((scores.business / totalAnswers) * 100);
+
+            tempRecommendedStream = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+
+            quizSec.classList.remove('visible');
+            tabsRow.style.display = "none"; 
+            quizResScreen.classList.add('visible');
+
+            document.getElementById('pct-computing').textContent = `${compPct}%`;
+            document.getElementById('bar-computing').style.width = `${compPct}%`;
+            document.getElementById('pct-engineering').textContent = `${engPct}%`;
+            document.getElementById('bar-engineering').style.width = `${engPct}%`;
+            document.getElementById('pct-business').textContent = `${bizPct}%`;
+            document.getElementById('bar-business').style.width = `${bizPct}%`;
+
+            const listWrapper = document.getElementById('recommendedFieldsList');
+            listWrapper.innerHTML = "";
+            fieldSuggestions[tempRecommendedStream].forEach(field => {
+                listWrapper.innerHTML += `
+                    <div class="field-row">
+                        <span style="font-weight:600; font-size:0.95rem;">${field}</span>
+                        <span style="font-size:0.82rem; font-weight:700; color:var(--mint-800); background:var(--mint-100); padding:4px 10px; border-radius:6px;">High Interest Match</span>
+                    </div>
+                `;
+            });
+
+            const streamTitles = { computing: "Computing & Software Tech Architectures", engineering: "Engineering & Mechanics Operations", business: "Business Leadership & Strategy Operations" };
+            document.getElementById('quizMainVerdictText').innerHTML = `Hey <strong>${activeVisitorName}</strong>, your profile shows dominant affinity towards <strong>${streamTitles[tempRecommendedStream]}</strong>. Below is your detailed breakdown map.`;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function proceedToChancesEngine() {
+            document.getElementById('programCategory').value = tempRecommendedStream;
+            switchTabMode('predictor');
+        }
+
+        function calculateAdmissionChances(event) {
+            event.preventDefault();
+            
+            const mObt = parseFloat(document.getElementById('mObt').value);
+            const mTot = parseFloat(document.getElementById('mTot').value);
+            const iObt = parseFloat(document.getElementById('iObt').value);
+            const iTot = parseFloat(document.getElementById('iTot').value);
+            const tObt = parseFloat(document.getElementById('tObt').value);
+            const tTot = parseFloat(document.getElementById('tTot').value);
+            const currentCat = document.getElementById('programCategory').value;
+
+            let mRatio = mObt / mTot; if (mRatio > 1) mRatio = 1;
+            let iRatio = iObt / iTot; if (iRatio > 1) iRatio = 1;
+            let tRatio = tObt / tTot; if (tRatio > 1) tRatio = 1;
+
+            const finalAggregate = database[currentUni].formulas[currentCat].calc(mRatio, iRatio, tRatio);
+            
+            document.getElementById('computedScore').textContent = `${finalAggregate.toFixed(2)}%`;
+            document.getElementById('targetUniLabel').textContent = `${currentUni.toUpperCase()} OFFICIAL CALCULATOR`;
+
+            const insightBox = document.getElementById('reportInsightBox');
+            if (finalAggregate >= 78) { insightBox.textContent = "🚀 Outstanding merit profile! You are highly safe for top choices across major engineering and tech fields."; }
+            else if (finalAggregate >= 68 && finalAggregate < 78) { insightBox.textContent = "💡 Competitive score! You have solid parameters for core programs. Target regular campus selections."; }
+            else { insightBox.textContent = "⚠️ Fair score profile. We recommend reviewing secondary preferences or self-finance options to secure admission."; }
+
+            const campusesWrapper = document.getElementById('predictionCampusesWrapper');
+            campusesWrapper.innerHTML = ""; 
+            const uniCampuses = database[currentUni].campuses;
+
+            for (const campusName in uniCampuses) {
+                let campusHTML = `<div class="city-group-container"><div class="city-header">${campusName}</div><div class="fields-list-grid">`;
+                uniCampuses[campusName].forEach(prog => {
+                    let badgeClass = ""; let badgeText = "";
+                    const margin = finalAggregate - prog.cutoff;
+                    if (margin >= 2) { badgeClass = "badge-safe"; badgeText = "Safe Choice"; }
+                    else if (margin >= -1.5 && margin < 2) { badgeClass = "badge-likely"; badgeText = "Good Chance"; }
+                    else { badgeClass = "badge-challenging"; badgeText = "Challenging"; }
+
+                    const isStreamMatch = prog.cat === currentCat;
+                    const opacityStyle = isStreamMatch ? "" : "opacity: 0.55; background: rgba(0,0,0,0.015);";
+                    const matchText = isStreamMatch ? "⚡ Match" : "Other Field";
+
+                    campusHTML += `<div class="field-row" style="${opacityStyle}"><div class="field-info"><span class="field-name">${prog.name} <span style="font-size:0.75rem; font-weight:normal; color:var(--text-tertiary);">(${matchText})</span></span><span class="field-cutoff">Closing Threshold: ~${prog.cutoff}%</span></div><span class="badge ${badgeClass}">${badgeText}</span></div>`;
+                });
+                campusHTML += `</div></div>`; campusesWrapper.innerHTML += campusHTML;
+            }
+            
+            const reportPanel = document.getElementById('reportSection');
+            reportPanel.classList.add('visible'); 
+            reportPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            syncLabels();
+        });
+    </script>
+
+    <!-- FIREBASE PIPELINE WORKSPACE MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCgmTwW1wR-8l5pvfrQVQ9aM6P6Ve_nwY0",
+            authDomain: "oyyeebeen.firebaseapp.com",
+            projectId: "oyyeebeen",
+            storageBucket: "oyyeebeen.firebasestorage.app",
+            messagingSenderId: "1042524389398",
+            appId: "1:1042524389398:web:3e041d60cee55a8fd6f537",
+            measurementId: "G-KF5JPWN9QZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        if (!sessionStorage.getItem('oyyeebeenSessionToken')) {
+            sessionStorage.setItem('oyyeebeenSessionToken', 'tok_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36));
+        }
+        const userSessionId = sessionStorage.getItem('oyyeebeenSessionToken');
+
+        async function publishAnalyticsEvent(eventName, payload = {}) {
+            try {
+                await addDoc(collection(db, "traffic_metrics_logs"), {
+                    sessionId: userSessionId,
+                    event: eventName,
+                    timestamp: serverTimestamp(),
+                    platform: navigator.platform || "Unknown",
+                    viewport: `${window.innerWidth}x${window.innerHeight}`,
+                    userAgent: navigator.userAgent.substring(0, 80) + "...",
+                    meta: payload
+                });
+            } catch (error) {
+                console.error("Metrics Collection Fault:", error);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            publishAnalyticsEvent("Page Load", { trackingSource: document.referrer || "Direct Navigation" });
+        });
+
+        // Intercept function to track User details as soon as they submit lead info
+        window.triggerFirebaseLeadRegistration = function(name, whatsapp) {
+            publishAnalyticsEvent("Quiz Lead Registered", { studentName: name, whatsappNumber: whatsapp });
+        };
+
+        const pipelineQuizWrapper = window.evaluateQuizResults;
+        window.evaluateQuizResults = function() {
+            if (typeof pipelineQuizWrapper === 'function') pipelineQuizWrapper();
+            publishAnalyticsEvent("Quiz Finalized", { 
+                studentName: window.activeVisitorName,
+                whatsappNumber: window.activeVisitorWhitespace || window.activeVisitorValue || document.getElementById('visitorWhatsapp').value,
+                recommendedPath: window.tempRecommendedStream || "computing" 
+            });
+        };
+
+        const pipelinePredictorWrapper = window.calculateAdmissionChances;
+        window.calculateAdmissionChances = function(event) {
+            if (typeof pipelinePredictorWrapper === 'function') pipelinePredictorWrapper(event);
+            
+            const targetedUni = window.currentUni;
+            const currentCategory = document.getElementById('programCategory').value;
+            const generatedScore = document.getElementById('computedScore').textContent;
+
+            publishAnalyticsEvent("Calculation Completed", {
+                studentName: window.activeVisitorName || "Anonymous User",
+                uniKey: targetedUni,
+                streamType: currentCategory,
+                aggregateOutput: generatedScore
+            });
+        };
+    </script>
+</body>
+</html>

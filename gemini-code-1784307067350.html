@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard Portal - OYEBEEN'S</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #fafdfc;
+            --panel-card: #ffffff;
+            --primary-text: #06231a;
+            --accent-mint: #059669;
+            --border-tint: #e6f7ef;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--primary-text);
+            margin: 0; padding: 0;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(5, 150, 105, 0.04) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(209, 250, 229, 0.2) 0px, transparent 40%);
+            background-attachment: fixed;
+        }
+        .auth-container {
+            max-width: 420px; margin: 120px auto; padding: 36px;
+            background: #ffffff; border-radius: 24px;
+            box-shadow: 0 25px 60px -15px rgba(5, 150, 105, 0.08); border: 1px solid var(--border-tint);
+        }
+        .auth-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.9rem; margin: 0 0 6px 0; text-align: center; color: var(--primary-text); }
+        .form-control { width: 100%; padding: 14px; margin-top: 14px; border: 1px solid #a7f3d0; border-radius: 12px; box-sizing: border-box; font-size: 0.95rem; background: #fafdfb; transition: border 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--accent-mint); box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1); }
+        .auth-btn { width: 100%; background: var(--accent-mint); color: #fff; padding: 14px; border: none; border-radius: 12px; margin-top: 24px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: background 0.2s; }
+        .auth-btn:hover { background: #047857; }
+
+        .dashboard-layout { display: none; padding: 50px 40px; max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 20px; }
+        .dash-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.4rem; color: var(--primary-text); margin: 0; }
+        .logout-btn { background: #fee2e2; color: #991b1b; padding: 10px 20px; border: 1px solid #fca5a5; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .logout-btn:hover { background: #fca5a5; }
+        
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .metric-card { background: var(--panel-card); padding: 26px; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); text-align: center; transition: transform 0.2s; }
+        .metric-card:hover { transform: translateY(-2px); }
+        .metric-label { color: #2f5c4a; font-size: 0.88rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+        .metric-value { font-family: 'Space Grotesk', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--accent-mint); margin-top: 8px; }
+
+        .table-section { background: var(--panel-card); border-radius: 20px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); }
+        .table-title { font-family: 'Space Grotesk', sans-serif; padding: 22px 26px; margin: 0; background: #ffffff; border-bottom: 1px solid #e2e8f0; font-size: 1.3rem; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem; }
+        th { background: #f8fafc; padding: 16px 26px; color: #334155; font-weight: 600; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 16px 26px; border-bottom: 1px solid #f8fafc; color: #06231a; }
+        tr:hover { background: #f8fbf9; }
+        .badge { background: #ecfdf5; color: #047857; padding: 5px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; border: 1px solid #a7f3d0; }
+        .lead-highlight { background: #eff6ff; border-left: 4px solid #2563eb; padding: 6px 10px; border-radius: 4px; margin-bottom: 6px; font-weight: 600; font-size: 0.85rem; color: #1e40af; }
+    </style>
+</head>
+<body>
+
+    <div id="authPanelBox" class="auth-container">
+        <h2 class="auth-title">OyeBeen Secure Gate</h2>
+        <p style="text-align: center; color: #2f5c4a; margin: 0 0 24px 0; font-size: 0.92rem;">Sign in to unlock operational web infrastructure.</p>
+        <input type="email" id="loginEmail" class="form-control" placeholder="Admin Account Email">
+        <input type="password" id="loginPassword" class="form-control" placeholder="Dashboard Passkey">
+        <button onclick="executeAdminAuthentication()" class="auth-btn">Unlock Control Room &rarr;</button>
+    </div>
+
+    <div id="dashboardAppBox" class="dashboard-layout">
+        <div class="dash-header">
+            <div>
+                <h1 class="dash-title">Platform Traction Monitor</h1>
+                <p style="color: #2f5c4a; margin: 4px 0 0 0; font-size: 0.98rem;">Live execution matrices synced dynamically with student leads.</p>
+            </div>
+            <button onclick="triggerSessionTermination()" class="logout-btn">Terminate Session</button>
+        </div>
+
+        <div class="metric-grid">
+            <div class="metric-card"><div class="metric-label">Total Logs View</div><div id="m-views" class="metric-value">0</div></div>
+            <div class="metric-card"><div class="metric-label">Unique Sessions</div><div id="m-users" class="metric-value">0</div></div>
+            <div class="metric-card"><div class="metric-label">Quiz Submissions</div><div id="m-quiz" class="metric-value">0</div></div>
+            <div class="metric-card"><div class="metric-label">Calculations Run</div><div id="m-calc" class="metric-value">0</div></div>
+        </div>
+
+        <div class="table-section">
+            <h3 class="table-title">Realtime User & Lead Logs</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Action Identifier</th>
+                            <th>Device Configuration</th>
+                            <th>Captured Context Parameters & Lead Info</th>
+                        </tr>
+                    </thead>
+                    <tbody id="liveTableStreamBody">
+                        <tr><td colspan="4" style="text-align: center; padding: 36px; color: #6f9385;">Initializing dynamic secure data channels pipeline connection...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCgmTwW1wR-8l5pvfrQVQ9aM6P6Ve_nwY0",
+            authDomain: "oyyeebeen.firebaseapp.com",
+            projectId: "oyyeebeen",
+            storageBucket: "oyyeebeen.firebasestorage.app",
+            messagingSenderId: "1042524389398",
+            appId: "1:1042524389398:web:3e041d60cee55a8fd6f537",
+            measurementId: "G-KF5JPWN9QZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('authPanelBox').style.display = 'none';
+                document.getElementById('dashboardAppBox').style.display = 'block';
+                initializeRealtimeOperationalTelemetry();
+            } else {
+                document.getElementById('authPanelBox').style.display = 'block';
+                document.getElementById('dashboardAppBox').style.display = 'none';
+            }
+        });
+
+        window.executeAdminAuthentication = function() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Access Revoked: " + err.message));
+        };
+
+        window.triggerSessionTermination = function() {
+            signOut(auth);
+        };
+
+        function initializeRealtimeOperationalTelemetry() {
+            onSnapshot(collection(db, "traffic_metrics_logs"), (snapshot) => {
+                let totalHits = 0, quizFinalizedCount = 0, predictionCalculationsCount = 0;
+                const activeSessionsMap = new Set();
+                let documentAggregationBuffer = [];
+
+                snapshot.forEach(doc => {
+                    const row = doc.data();
+                    documentAggregationBuffer.push(row);
+                    activeSessionsMap.add(row.sessionId);
+
+                    if (row.event === "Page Load") totalHits++;
+                    if (row.event === "Quiz Finalized") quizFinalizedCount++;
+                    if (row.event === "Calculation Completed") predictionCalculationsCount++;
+                });
+
+                document.getElementById('m-views').textContent = totalHits;
+                document.getElementById('m-users').textContent = activeSessionsMap.size;
+                document.getElementById('m-quiz').textContent = quizFinalizedCount;
+                document.getElementById('m-calc').textContent = predictionCalculationsCount;
+
+                documentAggregationBuffer.sort((x, y) => (y.timestamp?.seconds || 0) - (x.timestamp?.seconds || 0));
+                
+                let renderedRowsHtml = "";
+                const focusSlice = documentAggregationBuffer.slice(0, 40);
+
+                if(focusSlice.length === 0) {
+                    renderedRowsHtml = `<tr><td colspan="4" style="text-align:center; padding:24px; color:#6f9385;">No active metric telemetry inside data pools.</td></tr>`;
+                } else {
+                    focusSlice.forEach(item => {
+                        let dynamicDateString = "Processing Sync...";
+                        if(item.timestamp) {
+                            const parsedObj = item.timestamp.toDate();
+                            dynamicDateString = parsedObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ` - (${parsedObj.toLocaleDateString([], {month:'short', day:'numeric'})})`;
+                        }
+
+                        // Smart structural rendering of lead user name and whatsapp if present
+                        let leadBoxHtml = "";
+                        let metaInfo = item.meta || {};
+                        if(metaInfo.studentName || metaInfo.whatsappNumber) {
+                            leadBoxHtml = `
+                                <div class="lead-highlight">
+                                    👤 Name: ${metaInfo.studentName || 'N/A'} <br> 
+                                    💬 WA: <a href="https://wa.me/${metaInfo.whatsappNumber}" target="_blank" style="color:#2563eb; text-decoration:underline; font-weight:700;">${metaInfo.whatsappNumber || 'N/A'}</a>
+                                </div>
+                            `;
+                        }
+
+                        renderedRowsHtml += `
+                            <tr>
+                                <td style="white-space:nowrap; font-weight:600;">${dynamicDateString}</td>
+                                <td><span class="badge">${item.event}</span></td>
+                                <td style="color:#2f5c4a; font-size:0.85rem;">${item.platform} (${item.viewport})</td>
+                                <td style="font-size:0.82rem;">
+                                    ${leadBoxHtml}
+                                    <span style="font-family:monospace; color:#475569; word-break:break-all;">${JSON.stringify(metaInfo)}</span>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+                document.getElementById('liveTableStreamBody').innerHTML = renderedRowsHtml;
+            });
+        }
+    </script>
+</body>
+</html>
