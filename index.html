@@ -300,7 +300,7 @@
                     <select id="programCategory" onchange="syncLabels()">
                         <option value="computing">Computing Fields (CS, SE, AI, DS, Cyber Security)</option>
                         <option value="engineering">Engineering Fields (Mechanical, Electrical, Civil, etc.)</option>
-                        <option value="business">Business & Social Sciences (BBA, ACF, Architecture)</option>
+                        <option value="business">Business & Social Sciences (BBA, ACF, Architecture, Analytics)</option>
                     </select>
                 </div>
 
@@ -368,6 +368,7 @@
         // Global Fallback Hooks to block module async delays
         window.triggerFirebaseLeadRegistration = function(){};
         window.triggerFirebaseQuizFinalization = function(){};
+        window.triggerFirebaseQuizFinalization = function(){};
         window.triggerFirebaseCalculationTracking = function(){};
 
         const database = {
@@ -400,6 +401,15 @@
                         { name: "BS Environmental Engineering", cutoff: 54.80, cat: "engineering" }, 
                         { name: "BS Product & Industrial Design", cutoff: 58.90, cat: "business" }, 
                         { name: "BS Geological Engineering", cutoff: 53.15, cat: "engineering" }
+                    ],
+                    "Kala Shah Kaku (KSK) Campus": [
+                        { name: "BS Business Data Analytics", cutoff: 71.45, cat: "business" },
+                        { name: "BS Computer Science", cutoff: 76.80, cat: "computing" },
+                        { name: "BS Software Engineering", cutoff: 75.95, cat: "computing" },
+                        { name: "BS Mechanical Engineering", cutoff: 61.20, cat: "engineering" },
+                        { name: "BS Electrical Engineering", cutoff: 60.85, cat: "engineering" },
+                        { name: "BS Chemical Engineering", cutoff: 59.50, cat: "engineering" },
+                        { name: "BS Biomedical Engineering", cutoff: 64.30, cat: "engineering" }
                     ],
                     "Taxila Campus": [
                         { name: "BS Software Engineering", cutoff: 75.32, cat: "computing" }, 
@@ -650,7 +660,7 @@
         const fieldSuggestions = {
             computing: ["Computer Science (BS CS)", "Software Engineering (BS SE)", "Artificial Intelligence (BS AI)", "Data Science (BS DS)", "Cyber Security (BS CY)", "Computer Engineering"],
             engineering: ["Mechanical Engineering", "Electrical Engineering", "Civil Engineering", "Mechatronics Engineering", "Chemical Engineering", "Architectural Engineering"],
-            business: ["Business Administration (BBA)", "Accounting & Finance (ACF)", "Architecture & Design", "Product & Industrial Design", "Business Analytics"]
+            business: ["Business Administration (BBA)", "Accounting & Finance (ACF)", "Architecture & Design", "Product & Industrial Design", "Business Analytics", "Business Data Analytics"]
         };
 
         function evaluateQuizResults() {
