@@ -6,7 +6,7 @@
     <title>Admin Dashboard Portal - OYEBEEN'S</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=600;700&family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-base: #fafdfc;
@@ -153,11 +153,14 @@
 
                 snapshot.forEach(doc => {
                     const row = doc.data();
+                    if(!row) return;
+
                     documentAggregationBuffer.push(row);
-                    activeSessionsMap.add(row.sessionId);
+                    if (row.sessionId) activeSessionsMap.add(row.sessionId);
 
                     if (row.event === "Page Load") totalHits++;
-                    if (row.event === "Quiz Finalized") quizFinalizedCount++;
+                    // FIXED: Ab donon events ko capture karega taake submissions sahi se calculate hon
+                    if (row.event === "Quiz Finalized" || row.event === "Quiz Lead Registered") quizFinalizedCount++;
                     if (row.event === "Calculation Completed") predictionCalculationsCount++;
                 });
 
@@ -181,7 +184,6 @@
                             dynamicDateString = parsedObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ` - (${parsedObj.toLocaleDateString([], {month:'short', day:'numeric'})})`;
                         }
 
-                        // Smart structural rendering of lead user name and whatsapp if present
                         let leadBoxHtml = "";
                         let metaInfo = item.meta || {};
                         if(metaInfo.studentName || metaInfo.whatsappNumber) {
@@ -197,7 +199,7 @@
                             <tr>
                                 <td style="white-space:nowrap; font-weight:600;">${dynamicDateString}</td>
                                 <td><span class="badge">${item.event}</span></td>
-                                <td style="color:#2f5c4a; font-size:0.85rem;">${item.platform} (${item.viewport})</td>
+                                <td style="color:#2f5c4a; font-size:0.85rem;">${item.platform || 'Unknown'} (${item.viewport || 'N/A'})</td>
                                 <td style="font-size:0.82rem;">
                                     ${leadBoxHtml}
                                     <span style="font-family:monospace; color:#475569; word-break:break-all;">${JSON.stringify(metaInfo)}</span>
