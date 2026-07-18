@@ -93,12 +93,6 @@
         .readonly-input { background: rgba(0,0,0,0.02); cursor: not-allowed; border-color: var(--mint-200); font-weight: 500; }
         .separator { font-weight: 700; color: var(--text-tertiary); font-size: 1.1rem; }
 
-        .btn-submit {
-            background: var(--mint-700); color: #ffffff; border: 1px solid var(--mint-800);
-            padding: 14px; font-weight: 600; font-size: 1rem; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 24px;
-        }
-        .btn-submit:hover { background: var(--mint-800); transform: translateY(-1px); }
-
         /* QUIZ ENGINE STYLING */
         .quiz-container { display: none; margin-top: 10px; }
         .quiz-container.visible { display: block; animation: fadeInUp 0.4s ease; }
@@ -182,6 +176,12 @@
         .badge-safe { background: rgba(16, 185, 129, 0.12); color: #065f46; border: 1px solid rgba(16, 185, 129, 0.2); }
         .badge-likely { background: rgba(59, 130, 246, 0.12); color: #1e40af; border: 1px solid rgba(59, 130, 246, 0.2); }
         .badge-challenging { background: rgba(239, 68, 68, 0.1); color: #991b1b; border: 1px solid rgba(239, 68, 68, 0.15); }
+
+        .btn-submit {
+            background: var(--mint-700); color: #ffffff; border: 1px solid var(--mint-800);
+            padding: 14px; font-weight: 600; font-size: 1rem; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 24px;
+        }
+        .btn-submit:hover { background: var(--mint-800); transform: translateY(-1px); }
 
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUpPage { from { transform: scale(0.97); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -366,7 +366,7 @@
     </main>
 
     <script>
-        // Scanned Merit thresholds from User provided list images updated directly below
+        // Scanned Merit thresholds updated directly below
         const database = {
             uet: {
                 testName: "ECAT Test Score", total: 400,
@@ -417,7 +417,7 @@
                 testName: "NU Test Score", total: 100,
                 formulas: {
                     computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
-                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: (m, i, t) => (m * 15) + (i * 35) + (t * 50) },
+                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: (m * 15) + (i * 35) + (t * 50) },
                     business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: (m, i, t) => (m * 0) + (i * 50) + (t * 50) }
                 },
                 campuses: {
@@ -494,7 +494,7 @@
                 testName: "PU Entry Test Score", total: 100,
                 formulas: {
                     computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
-                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
+                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m * 25) + (i * 55) + (t * 20) },
                     business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: (m, i, t) => (m * 25) + (i * 75) + (t * 0) }
                 },
                 campuses: {
@@ -713,7 +713,6 @@
             let iRatio = iObt / iTot; if (iRatio > 1) iRatio = 1;
             let tRatio = tObt / tTot; if (tRatio > 1) tRatio = 1;
 
-            // Calculator code kept untouched exactly as per your configuration architecture
             const finalAggregate = database[currentUni].formulas[currentCat].calc(mRatio, iRatio, tRatio);
             
             document.getElementById('computedScore').textContent = `${finalAggregate.toFixed(2)}%`;
@@ -787,7 +786,7 @@
                     timestamp: serverTimestamp(),
                     platform: navigator.platform || "Unknown",
                     viewport: `${window.innerWidth}x${window.innerHeight}`,
-                    userAgent: navigator.userAgent.userAgent.substring(0, 80) + "...",
+                    userAgent: (navigator.userAgent || "Unknown").substring(0, 80) + "...", // FIXED CRASH HERE
                     meta: payload
                 });
             } catch (error) {
