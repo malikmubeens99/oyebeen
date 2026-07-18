@@ -210,7 +210,6 @@
             </div>
             
             <div id="langSelectorBox" class="lang-box">
-                <!-- User Information Leads Gateway Box -->
                 <div class="quiz-lead-box">
                     <h4 style="margin: 0 0 12px 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; color: var(--mint-800);">Enter Details to Start Quiz</h4>
                     <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -307,7 +306,7 @@
 
                 <div id="formulaHeading" class="formula-heading">Target Formula Setup: UET Official Formula (17% Matric, 50% FSc, 33% ECAT)</div>
 
-                <form id="predictorEngineForm" onsubmit="calculateAdmissionChances(event)">
+                <form id="predictorEngineForm" onsubmit="executeAdmissionLogic(event)">
                     <div class="form-grid">
                         <div class="input-card" style="margin:0;">
                             <label class="form-label">Matric / O-Level Score</label>
@@ -366,14 +365,18 @@
     </main>
 
     <script>
-        // Global variables available immediately to layout handlers
+        // Global Fallback Hooks to block module async delays
+        window.triggerFirebaseLeadRegistration = function(){};
+        window.triggerFirebaseQuizFinalization = function(){};
+        window.triggerFirebaseCalculationTracking = function(){};
+
         const database = {
             uet: {
                 testName: "ECAT Test Score", total: 400,
                 formulas: {
-                    computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) },
-                    engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) },
-                    business: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: (m, i, t) => (m * 17) + (i * 50) + (t * 33) }
+                    computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
+                    engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
+                    business: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
@@ -416,9 +419,9 @@
             fast: {
                 testName: "NU Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
-                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: (m * 15) + (i * 35) + (t * 50) },
-                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: (m * 0) + (i * 50) + (t * 50) }
+                    computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 15) + (i * 35) + (t * 50); } },
+                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } }
                 },
                 campuses: {
                     "Lahore Campus": [
@@ -439,9 +442,9 @@
             nust: {
                 testName: "NET Exam Score", total: 200,
                 formulas: {
-                    computing: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
-                    engineering: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
-                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: (m * 25) + (i * 0) + (t * 75) }
+                    computing: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
+                    engineering: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
+                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: function(m, i, t){ return (m * 25) + (i * 0) + (t * 75); } }
                 },
                 campuses: {
                     "Islamabad Main Campus (H-12)": [
@@ -457,9 +460,9 @@
             giki: {
                 testName: "GIKI Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) },
-                    engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) },
-                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: (m, i, t) => (m * 10) + (i * 50) + (t * 40) }
+                    computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
+                    engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
+                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } }
                 },
                 campuses: {
                     "Swabi Main Campus": [
@@ -473,9 +476,9 @@
             comsats: {
                 testName: "NTS NAT Score", total: 100,
                 formulas: {
-                    computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
-                    engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
-                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) }
+                    computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
                 },
                 campuses: {
                     "Islamabad Campus": [
@@ -493,9 +496,9 @@
             pu: {
                 testName: "PU Entry Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
-                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m * 25) + (i * 55) + (t * 20) },
-                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: (m * 25) + (i * 75) + (t * 0) }
+                    computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
+                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
+                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: function(m, i, t){ return (m * 25) + (i * 75) + (t * 0); } }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
@@ -513,20 +516,20 @@
         let activeVisitorName = "Anonymous User";
         let activeVisitorWhatsapp = "Not Provided";
 
-        // Global functions map specifically to handle interface transitions safely
         window.switchTabMode = function(mode) {
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            const predSec = document.getElementById('predictorSection');
-            const quizSec = document.getElementById('quizSection');
-            const quizResScreen = document.getElementById('quizResultsScreen');
-            const tabsRow = document.getElementById('modeTabsWrapper');
-
             if(mode === 'predictor') {
                 document.getElementById('predictorModeBtn').classList.add('active');
-                predSec.style.display = "block"; quizSec.classList.remove('visible'); quizResScreen.classList.remove('visible'); tabsRow.style.display = "flex";
+                document.getElementById('predictorSection').style.display = "block";
+                document.getElementById('quizSection').classList.remove('visible');
+                document.getElementById('quizResultsScreen').classList.remove('visible');
+                document.getElementById('modeTabsWrapper').style.display = "flex";
             } else {
                 document.getElementById('quizModeBtn').classList.add('active');
-                quizSec.classList.add('visible'); predSec.style.display = "none"; quizResScreen.classList.remove('visible'); tabsRow.style.display = "flex";
+                document.getElementById('quizSection').classList.add('visible');
+                document.getElementById('predictorSection').style.display = "none";
+                document.getElementById('quizResultsScreen').classList.remove('visible');
+                document.getElementById('modeTabsWrapper').style.display = "flex";
                 document.getElementById('langSelectorBox').style.display = "block";
                 document.getElementById('quizQuestionsArea').style.display = "none";
                 document.getElementById('quizProgressWrapper').style.display = "none";
@@ -564,7 +567,7 @@
             activeVisitorName = nameInput;
             activeVisitorWhatsapp = whatsappInput;
             
-            if(window.triggerFirebaseLeadRegistration) {
+            if(typeof window.triggerFirebaseLeadRegistration === 'function') {
                 window.triggerFirebaseLeadRegistration(activeVisitorName, activeVisitorWhatsapp);
             }
 
@@ -595,6 +598,7 @@
         function startQuizWithLanguage(langKey) {
             currentActiveQuestionsPool = localizedQuestions[langKey];
             quizAnswersCollected = {};
+            currentQuestionIndex = 0;
             
             const quizWrapper = document.getElementById('quizQuestionsWrapper');
             quizWrapper.innerHTML = "";
@@ -688,7 +692,7 @@
             const streamTitles = { computing: "Computing & Software Tech Architectures", engineering: "Engineering & Mechanics Operations", business: "Business Leadership & Strategy Operations" };
             document.getElementById('quizMainVerdictText').innerHTML = `Hey <strong>${activeVisitorName}</strong>, your profile shows dominant affinity towards <strong>${streamTitles[tempRecommendedStream]}</strong>. Below is your detailed breakdown map.`;
             
-            if(window.triggerFirebaseQuizFinalization) {
+            if(typeof window.triggerFirebaseQuizFinalization === 'function') {
                 window.triggerFirebaseQuizFinalization(tempRecommendedStream);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -699,8 +703,8 @@
             switchTabMode('predictor');
         };
 
-        window.calculateAdmissionChances = function(event) {
-            event.preventDefault();
+        window.executeAdmissionLogic = function(event) {
+            if(event) event.preventDefault();
             
             const mObt = parseFloat(document.getElementById('mObt').value);
             const mTot = parseFloat(document.getElementById('mTot').value);
@@ -746,7 +750,7 @@
                 campusHTML += `</div></div>`; campusesWrapper.innerHTML += campusHTML;
             }
             
-            if(window.triggerFirebaseCalculationTracking) {
+            if(typeof window.triggerFirebaseCalculationTracking === 'function') {
                 window.triggerFirebaseCalculationTracking(currentCat, `${finalAggregate.toFixed(2)}%`);
             }
 
