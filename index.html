@@ -366,7 +366,7 @@
     </main>
 
     <script>
-        // Scanned Merit thresholds updated directly below
+        // Global variables available immediately to layout handlers
         const database = {
             uet: {
                 testName: "ECAT Test Score", total: 400,
@@ -418,7 +418,7 @@
                 formulas: {
                     computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: (m, i, t) => (m * 10) + (i * 40) + (t * 50) },
                     engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: (m * 15) + (i * 35) + (t * 50) },
-                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: (m, i, t) => (m * 0) + (i * 50) + (t * 50) }
+                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: (m * 0) + (i * 50) + (t * 50) }
                 },
                 campuses: {
                     "Lahore Campus": [
@@ -441,7 +441,7 @@
                 formulas: {
                     computing: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
                     engineering: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: (m, i, t) => (m * 15) + (i * 10) + (t * 75) },
-                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: (m, i, t) => (m * 25) + (i * 0) + (t * 75) }
+                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: (m * 25) + (i * 0) + (t * 75) }
                 },
                 campuses: {
                     "Islamabad Main Campus (H-12)": [
@@ -495,7 +495,7 @@
                 formulas: {
                     computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m, i, t) => (m * 25) + (i * 55) + (t * 20) },
                     engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: (m * 25) + (i * 55) + (t * 20) },
-                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: (m, i, t) => (m * 25) + (i * 75) + (t * 0) }
+                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: (m * 25) + (i * 75) + (t * 0) }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
@@ -510,16 +510,17 @@
 
         let currentUni = "uet";
         let tempRecommendedStream = "computing";
+        let activeVisitorName = "Anonymous User";
+        let activeVisitorWhatsapp = "Not Provided";
 
-        const predModeBtn = document.getElementById('predictorModeBtn');
-        const quizModeBtn = document.getElementById('quizModeBtn');
-        const predSec = document.getElementById('predictorSection');
-        const quizSec = document.getElementById('quizSection');
-        const quizResScreen = document.getElementById('quizResultsScreen');
-        const tabsRow = document.getElementById('modeTabsWrapper');
-
-        function switchTabMode(mode) {
+        // Global functions map specifically to handle interface transitions safely
+        window.switchTabMode = function(mode) {
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            const predSec = document.getElementById('predictorSection');
+            const quizSec = document.getElementById('quizSection');
+            const quizResScreen = document.getElementById('quizResultsScreen');
+            const tabsRow = document.getElementById('modeTabsWrapper');
+
             if(mode === 'predictor') {
                 document.getElementById('predictorModeBtn').classList.add('active');
                 predSec.style.display = "block"; quizSec.classList.remove('visible'); quizResScreen.classList.remove('visible'); tabsRow.style.display = "flex";
@@ -530,17 +531,17 @@
                 document.getElementById('quizQuestionsArea').style.display = "none";
                 document.getElementById('quizProgressWrapper').style.display = "none";
             }
-        }
+        };
 
-        function changeTargetUniversity(uniKey) {
+        window.changeTargetUniversity = function(uniKey) {
             currentUni = uniKey;
             document.querySelectorAll('.uni-grid .uni-btn').forEach(b => b.classList.remove('active'));
             const targetedBtn = document.getElementById(`btn-${uniKey}`);
             if(targetedBtn) targetedBtn.classList.add('active');
             syncLabels();
-        }
+        };
 
-        function syncLabels() {
+        window.syncLabels = function() {
             const selected = database[currentUni];
             const currentCat = document.getElementById('programCategory').value;
             if (selected) {
@@ -549,12 +550,9 @@
                 document.getElementById('tTot').value = selected.total;
                 document.getElementById('reportSection').classList.remove('visible');
             }
-        }
+        };
 
-        let activeVisitorName = "Anonymous User";
-        let activeVisitorWhatsapp = "Not Provided";
-
-        function validateLeadFormAndStart(langKey) {
+        window.validateLeadFormAndStart = function(langKey) {
             const nameInput = document.getElementById('visitorName').value.trim();
             const whatsappInput = document.getElementById('visitorWhatsapp').value.trim();
 
@@ -571,7 +569,7 @@
             }
 
             startQuizWithLanguage(langKey);
-        }
+        };
 
         const localizedQuestions = {
             english: [
@@ -634,7 +632,7 @@
             }
         }
 
-        function handleOptionSelect(qIdx, optionKey) {
+        window.handleOptionSelect = function(qIdx, optionKey) {
             quizAnswersCollected[qIdx] = optionKey;
             setTimeout(() => {
                 if (qIdx + 1 < currentActiveQuestionsPool.length) {
@@ -643,7 +641,7 @@
                     evaluateQuizResults();
                 }
             }, 250);
-        }
+        };
 
         const fieldSuggestions = {
             computing: ["Computer Science (BS CS)", "Software Engineering (BS SE)", "Artificial Intelligence (BS AI)", "Data Science (BS DS)", "Cyber Security (BS CY)", "Computer Engineering"],
@@ -665,9 +663,9 @@
 
             tempRecommendedStream = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
 
-            quizSec.classList.remove('visible');
-            tabsRow.style.display = "none"; 
-            quizResScreen.classList.add('visible');
+            document.getElementById('quizSection').classList.remove('visible');
+            document.getElementById('modeTabsWrapper').style.display = "none"; 
+            document.getElementById('quizResultsScreen').classList.add('visible');
 
             document.getElementById('pct-computing').textContent = `${compPct}%`;
             document.getElementById('bar-computing').style.width = `${compPct}%`;
@@ -690,15 +688,18 @@
             const streamTitles = { computing: "Computing & Software Tech Architectures", engineering: "Engineering & Mechanics Operations", business: "Business Leadership & Strategy Operations" };
             document.getElementById('quizMainVerdictText').innerHTML = `Hey <strong>${activeVisitorName}</strong>, your profile shows dominant affinity towards <strong>${streamTitles[tempRecommendedStream]}</strong>. Below is your detailed breakdown map.`;
             
+            if(window.triggerFirebaseQuizFinalization) {
+                window.triggerFirebaseQuizFinalization(tempRecommendedStream);
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function proceedToChancesEngine() {
+        window.proceedToChancesEngine = function() {
             document.getElementById('programCategory').value = tempRecommendedStream;
             switchTabMode('predictor');
-        }
+        };
 
-        function calculateAdmissionChances(event) {
+        window.calculateAdmissionChances = function(event) {
             event.preventDefault();
             
             const mObt = parseFloat(document.getElementById('mObt').value);
@@ -745,10 +746,14 @@
                 campusHTML += `</div></div>`; campusesWrapper.innerHTML += campusHTML;
             }
             
+            if(window.triggerFirebaseCalculationTracking) {
+                window.triggerFirebaseCalculationTracking(currentCat, `${finalAggregate.toFixed(2)}%`);
+            }
+
             const reportPanel = document.getElementById('reportSection');
             reportPanel.classList.add('visible'); 
             reportPanel.scrollIntoView({ behavior: 'smooth' });
-        }
+        };
 
         window.addEventListener('DOMContentLoaded', () => {
             syncLabels();
@@ -786,7 +791,7 @@
                     timestamp: serverTimestamp(),
                     platform: navigator.platform || "Unknown",
                     viewport: `${window.innerWidth}x${window.innerHeight}`,
-                    userAgent: (navigator.userAgent || "Unknown").substring(0, 80) + "...", // FIXED CRASH HERE
+                    userAgent: (navigator.userAgent || "Unknown").substring(0, 80) + "...",
                     meta: payload
                 });
             } catch (error) {
@@ -802,29 +807,20 @@
             publishAnalyticsEvent("Quiz Lead Registered", { studentName: name, whatsappNumber: whatsapp });
         };
 
-        const pipelineQuizWrapper = window.evaluateQuizResults;
-        window.evaluateQuizResults = function() {
-            if (typeof pipelineQuizWrapper === 'function') pipelineQuizWrapper();
+        window.triggerFirebaseQuizFinalization = function(recommendedPath) {
             publishAnalyticsEvent("Quiz Finalized", { 
                 studentName: window.activeVisitorName,
                 whatsappNumber: document.getElementById('visitorWhatsapp').value,
-                recommendedPath: window.tempRecommendedStream || "computing" 
+                recommendedPath: recommendedPath
             });
         };
 
-        const pipelinePredictorWrapper = window.calculateAdmissionChances;
-        window.calculateAdmissionChances = function(event) {
-            if (typeof pipelinePredictorWrapper === 'function') pipelinePredictorWrapper(event);
-            
-            const targetedUni = window.currentUni;
-            const currentCategory = document.getElementById('programCategory').value;
-            const generatedScore = document.getElementById('computedScore').textContent;
-
+        window.triggerFirebaseCalculationTracking = function(category, outputScore) {
             publishAnalyticsEvent("Calculation Completed", {
                 studentName: window.activeVisitorName || "Anonymous User",
-                uniKey: targetedUni,
-                streamType: currentCategory,
-                aggregateOutput: generatedScore
+                uniKey: window.currentUni,
+                streamType: category,
+                aggregateOutput: outputScore
             });
         };
     </script>
