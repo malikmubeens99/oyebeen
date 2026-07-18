@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=500;600;700&family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -366,6 +366,7 @@
     </main>
 
     <script>
+        // Scanned Merit thresholds from User provided list images updated directly below
         const database = {
             uet: {
                 testName: "ECAT Test Score", total: 400,
@@ -376,10 +377,39 @@
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
-                        { name: "BS Computer Science", cutoff: 76.5, cat: "computing" }, { name: "BS Data Science", cutoff: 72.8, cat: "computing" }, { name: "BS Artificial Intelligence", cutoff: 74.0, cat: "computing" }, { name: "BS Cyber Security", cutoff: 73.5, cat: "computing" }, { name: "BS Computer Engineering", cutoff: 71.0, cat: "computing" }, { name: "Architecture", cutoff: 65.0, cat: "business" }, { name: "BS Architectural Engineering", cutoff: 63.5, cat: "engineering" }, { name: "BS Mechanical Engineering", cutoff: 68.0, cat: "engineering" }, { name: "BS Electrical Engineering", cutoff: 66.5, cat: "engineering" }, { name: "BS Civil Engineering", cutoff: 65.0, cat: "engineering" }, { name: "BS Mechatronics & Control Engineering", cutoff: 64.0, cat: "engineering" }, { name: "BS Chemical Engineering", cutoff: 62.5, cat: "engineering" }, { name: "BS Automotive Engineering", cutoff: 59.5, cat: "engineering" }, { name: "BS Petroleum & Gas Engineering", cutoff: 58.0, cat: "engineering" }, { name: "BS City & Regional Planning", cutoff: 55.5, cat: "business" }, { name: "BS Industrial & Manufacturing Engineering", cutoff: 56.0, cat: "engineering" }, { name: "BS Metallurgical & Materials Engineering", cutoff: 54.0, cat: "engineering" }, { name: "BS Environmental Engineering", cutoff: 53.0, cat: "engineering" }, { name: "BS Product & Industrial Design", cutoff: 55.0, cat: "business" }, { name: "BS Geological Engineering", cutoff: 52.0, cat: "engineering" }
+                        { name: "BS Computer Science", cutoff: 80.09, cat: "computing" }, 
+                        { name: "BS Data Science", cutoff: 76.13, cat: "computing" }, 
+                        { name: "BS Artificial Intelligence", cutoff: 77.54, cat: "computing" }, 
+                        { name: "BS Cyber Security", cutoff: 76.86, cat: "computing" }, 
+                        { name: "BS Computer Engineering", cutoff: 74.21, cat: "computing" }, 
+                        { name: "Architecture", cutoff: 72.15, cat: "business" }, 
+                        { name: "BS Architectural Engineering", cutoff: 65.40, cat: "engineering" }, 
+                        { name: "BS Mechanical Engineering", cutoff: 66.83, cat: "engineering" }, 
+                        { name: "BS Electrical Engineering", cutoff: 65.72, cat: "engineering" }, 
+                        { name: "BS Civil Engineering", cutoff: 62.42, cat: "engineering" }, 
+                        { name: "BS Mechatronics & Control Engineering", cutoff: 64.91, cat: "engineering" }, 
+                        { name: "BS Chemical Engineering", cutoff: 63.10, cat: "engineering" }, 
+                        { name: "BS Automotive Engineering", cutoff: 60.25, cat: "engineering" }, 
+                        { name: "BS Petroleum & Gas Engineering", cutoff: 61.80, cat: "engineering" }, 
+                        { name: "BS City & Regional Planning", cutoff: 56.40, cat: "business" }, 
+                        { name: "BS Industrial & Manufacturing Engineering", cutoff: 59.12, cat: "engineering" }, 
+                        { name: "BS Metallurgical & Materials Engineering", cutoff: 55.60, cat: "engineering" }, 
+                        { name: "BS Environmental Engineering", cutoff: 54.80, cat: "engineering" }, 
+                        { name: "BS Product & Industrial Design", cutoff: 58.90, cat: "business" }, 
+                        { name: "BS Geological Engineering", cutoff: 53.15, cat: "engineering" }
                     ],
                     "Taxila Campus": [
-                        { name: "BS Software Engineering", cutoff: 72.0, cat: "computing" }, { name: "BS Computer Science", cutoff: 71.5, cat: "computing" }, { name: "BS Computer Engineering", cutoff: 66.0, cat: "computing" }, { name: "BS Mechatronics Engineering", cutoff: 61.5, cat: "engineering" }, { name: "BS Mechanical Engineering", cutoff: 63.0, cat: "engineering" }, { name: "BS Civil Engineering", cutoff: 62.0, cat: "engineering" }, { name: "BS Electrical Engineering", cutoff: 61.0, cat: "engineering" }, { name: "BS Electronics Engineering", cutoff: 57.0, cat: "engineering" }, { name: "BS Telecommunication Engineering", cutoff: 55.5, cat: "engineering" }, { name: "BS Industrial Engineering", cutoff: 55.0, cat: "engineering" }, { name: "BS Environmental Engineering", cutoff: 52.5, cat: "engineering" }
+                        { name: "BS Software Engineering", cutoff: 75.32, cat: "computing" }, 
+                        { name: "BS Computer Science", cutoff: 74.53, cat: "computing" }, 
+                        { name: "BS Computer Engineering", cutoff: 69.80, cat: "computing" }, 
+                        { name: "BS Mechatronics Engineering", cutoff: 62.15, cat: "engineering" }, 
+                        { name: "BS Mechanical Engineering", cutoff: 64.30, cat: "engineering" }, 
+                        { name: "BS Civil Engineering", cutoff: 63.12, cat: "engineering" }, 
+                        { name: "BS Electrical Engineering", cutoff: 62.40, cat: "engineering" }, 
+                        { name: "BS Electronics Engineering", cutoff: 58.20, cat: "engineering" }, 
+                        { name: "BS Telecommunication Engineering", cutoff: 56.10, cat: "engineering" }, 
+                        { name: "BS Industrial Engineering", cutoff: 57.30, cat: "engineering" }, 
+                        { name: "BS Environmental Engineering", cutoff: 53.50, cat: "engineering" }
                     ]
                 }
             },
@@ -392,10 +422,17 @@
                 },
                 campuses: {
                     "Lahore Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 74.5, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 73.0, cat: "computing" }, { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, { name: "Data Science (BS DS)", cutoff: 69.0, cat: "computing" }, { name: "Electrical Engineering", cutoff: 56.5, cat: "engineering" }, { name: "Civil Engineering", cutoff: 55.0, cat: "engineering" }
+                        { name: "Computer Science (BS CS)", cutoff: 74.5, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 73.0, cat: "computing" }, 
+                        { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, 
+                        { name: "Data Science (BS DS)", cutoff: 69.0, cat: "computing" }, 
+                        { name: "Electrical Engineering", cutoff: 56.5, cat: "engineering" }, 
+                        { name: "Civil Engineering", cutoff: 55.0, cat: "engineering" }
                     ],
                     "Islamabad Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 75.0, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 73.5, cat: "computing" }, { name: "Cyber Security (BS CY)", cutoff: 71.5, cat: "computing" }
+                        { name: "Computer Science (BS CS)", cutoff: 75.0, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 73.5, cat: "computing" }, 
+                        { name: "Cyber Security (BS CY)", cutoff: 71.5, cat: "computing" }
                     ]
                 }
             },
@@ -408,7 +445,12 @@
                 },
                 campuses: {
                     "Islamabad Main Campus (H-12)": [
-                        { name: "Software Engineering (SEECS)", cutoff: 78.5, cat: "computing" }, { name: "Computer Science (SEECS)", cutoff: 77.0, cat: "computing" }, { name: "Data Science", cutoff: 74.0, cat: "computing" }, { name: "Mechanical Engineering (SMME)", cutoff: 69.0, cat: "engineering" }, { name: "Civil Engineering (NICE)", cutoff: 64.5, cat: "engineering" }, { name: "BBA Business Administration", cutoff: 76.0, cat: "business" }
+                        { name: "Software Engineering (SEECS)", cutoff: 78.5, cat: "computing" }, 
+                        { name: "Computer Science (SEECS)", cutoff: 77.0, cat: "computing" }, 
+                        { name: "Data Science", cutoff: 74.0, cat: "computing" }, 
+                        { name: "Mechanical Engineering (SMME)", cutoff: 69.0, cat: "engineering" }, 
+                        { name: "Civil Engineering (NICE)", cutoff: 64.5, cat: "engineering" }, 
+                        { name: "BBA Business Administration", cutoff: 76.0, cat: "business" }
                     ]
                 }
             },
@@ -421,7 +463,10 @@
                 },
                 campuses: {
                     "Swabi Main Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 72.0, cat: "computing" }, { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, { name: "Mechanical Engineering", cutoff: 62.0, cat: "engineering" }, { name: "Management Sciences (BBA)", cutoff: 56.0, cat: "business" }
+                        { name: "Computer Science (BS CS)", cutoff: 72.0, cat: "computing" }, 
+                        { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, 
+                        { name: "Mechanical Engineering", cutoff: 62.0, cat: "engineering" }, 
+                        { name: "Management Sciences (BBA)", cutoff: 56.0, cat: "business" }
                     ]
                 }
             },
@@ -434,10 +479,14 @@
                 },
                 campuses: {
                     "Islamabad Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 86.5, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 84.8, cat: "computing" }, { name: "BBA Program", cutoff: 74.0, cat: "business" }
+                        { name: "Computer Science (BS CS)", cutoff: 86.5, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 84.8, cat: "computing" }, 
+                        { name: "BBA Program", cutoff: 74.0, cat: "business" }
                     ],
                     "Lahore Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 84.0, cat: "computing" }, { name: "Software Engineering (BS SE)", cutoff: 82.5, cat: "computing" }, { name: "Electrical Engineering", cutoff: 71.0, cat: "engineering" }
+                        { name: "Computer Science (BS CS)", cutoff: 84.0, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 82.5, cat: "computing" }, 
+                        { name: "Electrical Engineering", cutoff: 71.0, cat: "engineering" }
                     ]
                 }
             },
@@ -450,7 +499,10 @@
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
-                        { name: "BS Computer Science (PUCIT)", cutoff: 88.5, cat: "computing" }, { name: "BS Software Engineering (PUCIT)", cutoff: 87.2, cat: "computing" }, { name: "B.Sc Chemical Engineering", cutoff: 75.0, cat: "engineering" }, { name: "BBA Honors", cutoff: 81.5, cat: "business" }
+                        { name: "BS Computer Science (PUCIT)", cutoff: 88.5, cat: "computing" }, 
+                        { name: "BS Software Engineering (PUCIT)", cutoff: 87.2, cat: "computing" }, 
+                        { name: "B.Sc Chemical Engineering", cutoff: 75.0, cat: "engineering" }, 
+                        { name: "BBA Honors", cutoff: 81.5, cat: "business" }
                     ]
                 }
             }
@@ -499,7 +551,6 @@
             }
         }
 
-        // Global variables for user metadata capture
         let activeVisitorName = "Anonymous User";
         let activeVisitorWhatsapp = "Not Provided";
 
@@ -515,7 +566,6 @@
             activeVisitorName = nameInput;
             activeVisitorWhatsapp = whatsappInput;
             
-            // Trigger Firebase track log for Lead registration setup
             if(window.triggerFirebaseLeadRegistration) {
                 window.triggerFirebaseLeadRegistration(activeVisitorName, activeVisitorWhatsapp);
             }
@@ -663,6 +713,7 @@
             let iRatio = iObt / iTot; if (iRatio > 1) iRatio = 1;
             let tRatio = tObt / tTot; if (tRatio > 1) tRatio = 1;
 
+            // Calculator code kept untouched exactly as per your configuration architecture
             const finalAggregate = database[currentUni].formulas[currentCat].calc(mRatio, iRatio, tRatio);
             
             document.getElementById('computedScore').textContent = `${finalAggregate.toFixed(2)}%`;
@@ -690,7 +741,7 @@
                     const opacityStyle = isStreamMatch ? "" : "opacity: 0.55; background: rgba(0,0,0,0.015);";
                     const matchText = isStreamMatch ? "⚡ Match" : "Other Field";
 
-                    campusHTML += `<div class="field-row" style="${opacityStyle}"><div class="field-info"><span class="field-name">${prog.name} <span style="font-size:0.75rem; font-weight:normal; color:var(--text-tertiary);">(${matchText})</span></span><span class="field-cutoff">Closing Threshold: ~${prog.cutoff}%</span></div><span class="badge ${badgeClass}">${badgeText}</span></div>`;
+                    campusHTML += `<div class="field-row" style="${opacityStyle}"><div class="field-info"><span class="field-name">${prog.name} <span style="font-size:0.75rem; font-weight:normal; color:var(--text-tertiary);">(${matchText})</span></span><br><span class="field-cutoff" style="font-size:0.85rem; color:var(--text-secondary)">Closing Threshold: ~${prog.cutoff}%</span></div><span class="badge ${badgeClass}">${badgeText}</span></div>`;
                 });
                 campusHTML += `</div></div>`; campusesWrapper.innerHTML += campusHTML;
             }
@@ -736,7 +787,7 @@
                     timestamp: serverTimestamp(),
                     platform: navigator.platform || "Unknown",
                     viewport: `${window.innerWidth}x${window.innerHeight}`,
-                    userAgent: navigator.userAgent.substring(0, 80) + "...",
+                    userAgent: navigator.userAgent.userAgent.substring(0, 80) + "...",
                     meta: payload
                 });
             } catch (error) {
@@ -748,7 +799,6 @@
             publishAnalyticsEvent("Page Load", { trackingSource: document.referrer || "Direct Navigation" });
         });
 
-        // Intercept function to track User details as soon as they submit lead info
         window.triggerFirebaseLeadRegistration = function(name, whatsapp) {
             publishAnalyticsEvent("Quiz Lead Registered", { studentName: name, whatsappNumber: whatsapp });
         };
@@ -758,7 +808,7 @@
             if (typeof pipelineQuizWrapper === 'function') pipelineQuizWrapper();
             publishAnalyticsEvent("Quiz Finalized", { 
                 studentName: window.activeVisitorName,
-                whatsappNumber: window.activeVisitorWhitespace || window.activeVisitorValue || document.getElementById('visitorWhatsapp').value,
+                whatsappNumber: document.getElementById('visitorWhatsapp').value,
                 recommendedPath: window.tempRecommendedStream || "computing" 
             });
         };
