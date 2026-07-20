@@ -50,7 +50,75 @@
         .nav-container { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
         .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--mint-800); text-decoration: none; }
 
-        .main-content { max-width: 850px; margin: 50px auto; padding: 0 20px; box-sizing: border-box; }
+        /* BANNER AD 1 STYLING */
+        .ad-container-wrapper {
+            max-width: 850px;
+            margin: 25px auto 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .ad-banner-card {
+            position: relative;
+            width: 100%;
+            min-height: 110px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%);
+            border: 2px dashed var(--mint-300);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.06);
+            transition: all 0.3s ease;
+        }
+        .ad-banner-card:hover {
+            border-color: var(--mint-700);
+        }
+        .ad-banner-img {
+            width: 100%;
+            height: auto;
+            max-height: 180px;
+            object-fit: cover;
+            display: block;
+            border-radius: 14px;
+        }
+        .ad-tag {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: rgba(6, 35, 26, 0.6);
+            color: #ffffff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .ad-fallback-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .ad-fallback-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--mint-800);
+            margin: 0;
+        }
+        .ad-fallback-sub {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .main-content { max-width: 850px; margin: 30px auto 50px auto; padding: 0 20px; box-sizing: border-box; }
         .calc-page-header { text-align: center; margin-bottom: 35px; }
         .calc-page-title { font-family: 'Space Grotesk', sans-serif; font-size: 2.8rem; margin: 0; color: var(--text-primary); }
         .text-outline { -webkit-text-stroke: 2px var(--mint-700); color: transparent; }
@@ -98,7 +166,6 @@
         .quiz-container.visible { display: block; animation: fadeInUp 0.4s ease; }
         .lang-box { background: #ffffff; border: 1px solid var(--mint-200); border-radius: 16px; padding: 32px; text-align: center; }
         
-        /* Lead Form Info Box styling */
         .quiz-lead-box { background: var(--mint-100); border: 1px solid var(--mint-300); border-radius: 16px; padding: 24px; margin-bottom: 24px; text-align: left; }
 
         .quiz-question-box { 
@@ -197,6 +264,19 @@
         </div>
     </header>
 
+    <!-- ADVERTISEMENT BANNER 1 SECTION -->
+    <div class="ad-container-wrapper">
+        <div class="ad-banner-card">
+            <span class="ad-tag">Ad 1</span>
+            <img src="ad1.jpg" alt="Advertisement" class="ad-banner-img" id="ad1BannerImg" onerror="this.style.display='none'; document.getElementById('ad1Fallback').style.display='flex';">
+            
+            <div class="ad-fallback-placeholder" id="ad1Fallback" style="display: none;">
+                <p class="ad-fallback-title">📢 Brand Advertisement Space (Ad 1)</p>
+                <p class="ad-fallback-sub">Promote your institute or products here. Contact for banner placements.</p>
+            </div>
+        </div>
+    </div>
+
     <main class="main-content">
         <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;" id="modeTabsWrapper">
             <button class="mode-btn active" id="predictorModeBtn" onclick="switchTabMode('predictor')">Admission Predictor</button>
@@ -265,6 +345,10 @@
                         <div class="chart-label-flex"><span>Business & Management Streams</span><span id="pct-business">0%</span></div>
                         <div class="track-bar"><div class="fill-bar" id="bar-business"></div></div>
                     </div>
+                    <div class="chart-row" style="margin-top:16px;">
+                        <div class="chart-label-flex"><span>Medical & Allied Health Streams</span><span id="pct-medical">0%</span></div>
+                        <div class="track-bar"><div class="fill-bar" id="bar-medical"></div></div>
+                    </div>
                 </div>
 
                 <div>
@@ -287,11 +371,17 @@
                     <label class="form-label">Select Target University</label>
                     <div class="uni-grid">
                         <button type="button" id="btn-uet" class="uni-btn active" onclick="changeTargetUniversity('uet')">UET (Taxila / Lhr)</button>
-                        <button type="button" id="btn-fast" class="uni-btn" onclick="changeTargetUniversity('fast')">FAST-NUCES</button>
+                        <button type="button" id="btn-fast" class="uni-btn" onclick="changeTargetUniversity('fast')">FAST-NUCES (Lhr/Isb)</button>
+                        <button type="button" id="btn-fastkhi" class="uni-btn" onclick="changeTargetUniversity('fastkhi')">FAST Karachi</button>
+                        <button type="button" id="btn-lums" class="uni-btn" onclick="changeTargetUniversity('lums')">LUMS Lahore</button>
                         <button type="button" id="btn-nust" class="uni-btn" onclick="changeTargetUniversity('nust')">NUST</button>
                         <button type="button" id="btn-giki" class="uni-btn" onclick="changeTargetUniversity('giki')">GIKI Swabi</button>
                         <button type="button" id="btn-comsats" class="uni-btn" onclick="changeTargetUniversity('comsats')">COMSATS</button>
                         <button type="button" id="btn-pu" class="uni-btn" onclick="changeTargetUniversity('pu')">Punjab University (PU)</button>
+                        <button type="button" id="btn-uhs" class="uni-btn" onclick="changeTargetUniversity('uhs')">UHS Medical (KEMU/AIMC/SIMS)</button>
+                        <button type="button" id="btn-nums" class="uni-btn" onclick="changeTargetUniversity('nums')">NUMS (Rawalpindi)</button>
+                        <button type="button" id="btn-dow" class="uni-btn" onclick="changeTargetUniversity('dow')">DOW / DUHS Karachi</button>
+                        <button type="button" id="btn-aku" class="uni-btn" onclick="changeTargetUniversity('aku')">Aga Khan Univ (AKU)</button>
                     </div>
                 </div>
 
@@ -300,7 +390,8 @@
                     <select id="programCategory" onchange="syncLabels()">
                         <option value="computing">Computing Fields (CS, SE, AI, DS, Cyber Security)</option>
                         <option value="engineering">Engineering Fields (Mechanical, Electrical, Civil, etc.)</option>
-                        <option value="business">Business & Social Sciences (BBA, ACF, Architecture, Analytics)</option>
+                        <option value="business">Business & Social Sciences (BBA, BBIT, ACF, Architecture, Analytics)</option>
+                        <option value="medical">Medical & Health Sciences (MBBS, BDS, DPT, Pharm-D, Nursing)</option>
                     </select>
                 </div>
 
@@ -313,7 +404,7 @@
                             <div class="input-row">
                                 <input type="number" id="mObt" placeholder="Obtained" required min="1">
                                 <span class="separator">/</span>
-                                <input type="number" id="mTot" value="1100" required min="1">
+                                <input type="number" id="mTot" value="1200" required min="1">
                             </div>
                         </div>
 
@@ -322,7 +413,7 @@
                             <div class="input-row">
                                 <input type="number" id="iObt" placeholder="Obtained" required min="1">
                                 <span class="separator">/</span>
-                                <input type="number" id="iTot" value="1100" required min="1">
+                                <input type="number" id="iTot" value="570" required min="1">
                             </div>
                         </div>
                     </div>
@@ -376,53 +467,39 @@
                 formulas: {
                     computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
                     engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
-                    business: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } }
+                    business: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
+                    medical: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
-                        { name: "BS Computer Science", cutoff: 80.09, cat: "computing" }, 
-                        { name: "BS Data Science", cutoff: 76.13, cat: "computing" }, 
-                        { name: "BS Artificial Intelligence", cutoff: 77.54, cat: "computing" }, 
-                        { name: "BS Cyber Security", cutoff: 76.86, cat: "computing" }, 
-                        { name: "BS Computer Engineering", cutoff: 74.21, cat: "computing" }, 
-                        { name: "BS Business Data Analytics", cutoff: 72.60, cat: "business" },
-                        { name: "Architecture", cutoff: 72.15, cat: "business" }, 
-                        { name: "BS Architectural Engineering", cutoff: 65.40, cat: "engineering" }, 
-                        { name: "BS Mechanical Engineering", cutoff: 66.83, cat: "engineering" }, 
-                        { name: "BS Electrical Engineering", cutoff: 65.72, cat: "engineering" }, 
-                        { name: "BS Civil Engineering", cutoff: 62.42, cat: "engineering" }, 
-                        { name: "BS Mechatronics & Control Engineering", cutoff: 64.91, cat: "engineering" }, 
-                        { name: "BS Chemical Engineering", cutoff: 63.10, cat: "engineering" }, 
-                        { name: "BS Automotive Engineering", cutoff: 60.25, cat: "engineering" }, 
-                        { name: "BS Petroleum & Gas Engineering", cutoff: 61.80, cat: "engineering" }, 
-                        { name: "BS City & Regional Planning", cutoff: 56.40, cat: "business" }, 
-                        { name: "BS Industrial & Manufacturing Engineering", cutoff: 59.12, cat: "engineering" }, 
-                        { name: "BS Metallurgical & Materials Engineering", cutoff: 55.60, cat: "engineering" }, 
-                        { name: "BS Environmental Engineering", cutoff: 54.80, cat: "engineering" }, 
-                        { name: "BS Product & Industrial Design", cutoff: 58.90, cat: "business" }, 
-                        { name: "BS Geological Engineering", cutoff: 53.15, cat: "engineering" }
+                        { name: "BS Computer Science", cutoff: 84.80, cat: "computing" }, 
+                        { name: "BS Software Engineering", cutoff: 83.25, cat: "computing" }, 
+                        { name: "BS Artificial Intelligence", cutoff: 82.10, cat: "computing" }, 
+                        { name: "BS Data Science", cutoff: 81.40, cat: "computing" }, 
+                        { name: "BS Cyber Security", cutoff: 80.90, cat: "computing" }, 
+                        { name: "BS Business Data Analytics", cutoff: 75.60, cat: "business" },
+                        { name: "BS Business Information & Technology (BBIT)", cutoff: 74.80, cat: "business" },
+                        { name: "BS Biomedical Engineering", cutoff: 76.50, cat: "medical" },
+                        { name: "Architecture", cutoff: 74.15, cat: "business" }, 
+                        { name: "BS Mechanical Engineering", cutoff: 72.80, cat: "engineering" }, 
+                        { name: "BS Electrical Engineering", cutoff: 71.70, cat: "engineering" }, 
+                        { name: "BS Civil Engineering", cutoff: 68.40, cat: "engineering" }, 
+                        { name: "BS Mechatronics Engineering", cutoff: 71.20, cat: "engineering" }, 
+                        { name: "BS Chemical Engineering", cutoff: 67.80, cat: "engineering" }
                     ],
                     "Kala Shah Kaku (KSK) Campus": [
-                        { name: "BS Business Data Analytics", cutoff: 71.45, cat: "business" },
-                        { name: "BS Computer Science", cutoff: 76.80, cat: "computing" },
-                        { name: "BS Software Engineering", cutoff: 75.95, cat: "computing" },
-                        { name: "BS Mechanical Engineering", cutoff: 61.20, cat: "engineering" },
-                        { name: "BS Electrical Engineering", cutoff: 60.85, cat: "engineering" },
-                        { name: "BS Chemical Engineering", cutoff: 59.50, cat: "engineering" },
-                        { name: "BS Biomedical Engineering", cutoff: 64.30, cat: "engineering" }
+                        { name: "BS Computer Science", cutoff: 81.50, cat: "computing" },
+                        { name: "BS Software Engineering", cutoff: 80.20, cat: "computing" },
+                        { name: "BS Biomedical Engineering", cutoff: 73.80, cat: "medical" },
+                        { name: "BS Business Data Analytics", cutoff: 73.10, cat: "business" },
+                        { name: "BS Mechanical Engineering", cutoff: 66.40, cat: "engineering" },
+                        { name: "BS Electrical Engineering", cutoff: 65.80, cat: "engineering" }
                     ],
                     "Taxila Campus": [
-                        { name: "BS Software Engineering", cutoff: 75.32, cat: "computing" }, 
-                        { name: "BS Computer Science", cutoff: 74.53, cat: "computing" }, 
-                        { name: "BS Computer Engineering", cutoff: 69.80, cat: "computing" }, 
-                        { name: "BS Mechatronics Engineering", cutoff: 62.15, cat: "engineering" }, 
-                        { name: "BS Mechanical Engineering", cutoff: 64.30, cat: "engineering" }, 
-                        { name: "BS Civil Engineering", cutoff: 63.12, cat: "engineering" }, 
-                        { name: "BS Electrical Engineering", cutoff: 62.40, cat: "engineering" }, 
-                        { name: "BS Electronics Engineering", cutoff: 58.20, cat: "engineering" }, 
-                        { name: "BS Telecommunication Engineering", cutoff: 56.10, cat: "engineering" }, 
-                        { name: "BS Industrial Engineering", cutoff: 57.30, cat: "engineering" }, 
-                        { name: "BS Environmental Engineering", cutoff: 53.50, cat: "engineering" }
+                        { name: "BS Software Engineering", cutoff: 78.50, cat: "computing" }, 
+                        { name: "BS Computer Science", cutoff: 77.90, cat: "computing" }, 
+                        { name: "BS Mechanical Engineering", cutoff: 67.30, cat: "engineering" }, 
+                        { name: "BS Civil Engineering", cutoff: 65.80, cat: "engineering" }
                     ]
                 }
             },
@@ -431,21 +508,58 @@
                 formulas: {
                     computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
                     engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 15) + (i * 35) + (t * 50); } },
-                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } }
+                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } },
+                    medical: { heading: "FAST Standard Criteria (10% Matric, 40% Inter, 50% Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
                 },
                 campuses: {
                     "Lahore Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 74.5, cat: "computing" }, 
-                        { name: "Software Engineering (BS SE)", cutoff: 73.0, cat: "computing" }, 
-                        { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, 
-                        { name: "Data Science (BS DS)", cutoff: 69.0, cat: "computing" }, 
-                        { name: "Electrical Engineering", cutoff: 56.5, cat: "engineering" }, 
-                        { name: "Civil Engineering", cutoff: 55.0, cat: "engineering" }
+                        { name: "Computer Science (BS CS)", cutoff: 76.50, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 75.20, cat: "computing" }, 
+                        { name: "Artificial Intelligence (BS AI)", cutoff: 74.10, cat: "computing" }, 
+                        { name: "Data Science (BS DS)", cutoff: 73.50, cat: "computing" }, 
+                        { name: "Business Analytics", cutoff: 68.20, cat: "business" }
                     ],
                     "Islamabad Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 75.0, cat: "computing" }, 
-                        { name: "Software Engineering (BS SE)", cutoff: 73.5, cat: "computing" }, 
-                        { name: "Cyber Security (BS CY)", cutoff: 71.5, cat: "computing" }
+                        { name: "Computer Science (BS CS)", cutoff: 77.10, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 75.80, cat: "computing" }, 
+                        { name: "Cyber Security (BS CY)", cutoff: 74.00, cat: "computing" }
+                    ]
+                }
+            },
+            fastkhi: {
+                testName: "NU Test Score", total: 100,
+                formulas: {
+                    computing: { heading: "FAST Karachi Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "FAST Karachi Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 15) + (i * 35) + (t * 50); } },
+                    business: { heading: "FAST Karachi Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } },
+                    medical: { heading: "FAST Karachi Standard Criteria", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                },
+                campuses: {
+                    "Karachi Main Campus": [
+                        { name: "Computer Science (BS CS)", cutoff: 73.80, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 72.40, cat: "computing" }, 
+                        { name: "Artificial Intelligence (BS AI)", cutoff: 71.00, cat: "computing" }, 
+                        { name: "Cyber Security (BS CY)", cutoff: 70.20, cat: "computing" }, 
+                        { name: "Financial Technology (FinTech)", cutoff: 67.50, cat: "business" },
+                        { name: "Business Analytics (BS BA)", cutoff: 66.80, cat: "business" }
+                    ]
+                }
+            },
+            lums: {
+                testName: "SAT / LCAT Score", total: 1600,
+                formulas: {
+                    computing: { heading: "LUMS Admission Assessment (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
+                    engineering: { heading: "LUMS Admission Assessment (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
+                    business: { heading: "LUMS Admission Assessment (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
+                    medical: { heading: "LUMS Applied Sciences (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } }
+                },
+                campuses: {
+                    "Lahore Campus (DHA)": [
+                        { name: "BS Computer Science (SBASSE)", cutoff: 88.50, cat: "computing" },
+                        { name: "BS Data Science & Math (SBASSE)", cutoff: 86.20, cat: "computing" },
+                        { name: "BBA Business Administration (SDSB)", cutoff: 87.00, cat: "business" },
+                        { name: "Accounting & Finance (ACF SDSB)", cutoff: 85.80, cat: "business" },
+                        { name: "Economics & Politics (MGSHSS)", cutoff: 82.40, cat: "business" }
                     ]
                 }
             },
@@ -454,16 +568,17 @@
                 formulas: {
                     computing: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
                     engineering: { heading: "NUST Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
-                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: function(m, i, t){ return (m * 25) + (i * 0) + (t * 75); } }
+                    business: { heading: "NUST Business Criteria (25% Matric, 75% NET)", calc: function(m, i, t){ return (m * 25) + (i * 0) + (t * 75); } },
+                    medical: { heading: "NUST Applied Sciences (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } }
                 },
                 campuses: {
                     "Islamabad Main Campus (H-12)": [
-                        { name: "Software Engineering (SEECS)", cutoff: 78.5, cat: "computing" }, 
-                        { name: "Computer Science (SEECS)", cutoff: 77.0, cat: "computing" }, 
-                        { name: "Data Science", cutoff: 74.0, cat: "computing" }, 
-                        { name: "Mechanical Engineering (SMME)", cutoff: 69.0, cat: "engineering" }, 
-                        { name: "Civil Engineering (NICE)", cutoff: 64.5, cat: "engineering" }, 
-                        { name: "BBA Business Administration", cutoff: 76.0, cat: "business" }
+                        { name: "Software Engineering (SEECS)", cutoff: 80.50, cat: "computing" }, 
+                        { name: "Computer Science (SEECS)", cutoff: 79.20, cat: "computing" }, 
+                        { name: "Data Science", cutoff: 76.80, cat: "computing" }, 
+                        { name: "BS Biotechnology", cutoff: 74.50, cat: "medical" },
+                        { name: "Mechanical Engineering (SMME)", cutoff: 71.40, cat: "engineering" }, 
+                        { name: "BBA Business Administration", cutoff: 78.00, cat: "business" }
                     ]
                 }
             },
@@ -472,14 +587,15 @@
                 formulas: {
                     computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
                     engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
-                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } }
+                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
+                    medical: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } }
                 },
                 campuses: {
                     "Swabi Main Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 72.0, cat: "computing" }, 
-                        { name: "Artificial Intelligence (BS AI)", cutoff: 70.5, cat: "computing" }, 
-                        { name: "Mechanical Engineering", cutoff: 62.0, cat: "engineering" }, 
-                        { name: "Management Sciences (BBA)", cutoff: 56.0, cat: "business" }
+                        { name: "Computer Science (BS CS)", cutoff: 75.80, cat: "computing" }, 
+                        { name: "Artificial Intelligence (BS AI)", cutoff: 74.20, cat: "computing" }, 
+                        { name: "Mechanical Engineering", cutoff: 66.50, cat: "engineering" }, 
+                        { name: "Management Sciences (BBA)", cutoff: 62.00, cat: "business" }
                     ]
                 }
             },
@@ -488,18 +604,20 @@
                 formulas: {
                     computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
                     engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    medical: { heading: "COMSATS Pharmacy/Bio (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
                 },
                 campuses: {
                     "Islamabad Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 86.5, cat: "computing" }, 
-                        { name: "Software Engineering (BS SE)", cutoff: 84.8, cat: "computing" }, 
-                        { name: "BBA Program", cutoff: 74.0, cat: "business" }
+                        { name: "Computer Science (BS CS)", cutoff: 88.20, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 86.80, cat: "computing" }, 
+                        { name: "Doctor of Pharmacy (Pharm-D)", cutoff: 85.50, cat: "medical" },
+                        { name: "BBA Program", cutoff: 76.50, cat: "business" }
                     ],
                     "Lahore Campus": [
-                        { name: "Computer Science (BS CS)", cutoff: 84.0, cat: "computing" }, 
-                        { name: "Software Engineering (BS SE)", cutoff: 82.5, cat: "computing" }, 
-                        { name: "Electrical Engineering", cutoff: 71.0, cat: "engineering" }
+                        { name: "Computer Science (BS CS)", cutoff: 86.10, cat: "computing" }, 
+                        { name: "Software Engineering (BS SE)", cutoff: 84.90, cat: "computing" }, 
+                        { name: "BS Bioinformatics", cutoff: 78.20, cat: "medical" }
                     ]
                 }
             },
@@ -508,14 +626,88 @@
                 formulas: {
                     computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
                     engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
-                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: function(m, i, t){ return (m * 25) + (i * 75) + (t * 0); } }
+                    business: { heading: "PU Formula Layout (25% Matric, 75% Inter)", calc: function(m, i, t){ return (m * 25) + (i * 75) + (t * 0); } },
+                    medical: { heading: "PU Medical/Pharm-D Formula (25% Matric, 55% Inter, 20% Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
-                        { name: "BS Computer Science (PUCIT)", cutoff: 88.5, cat: "computing" }, 
-                        { name: "BS Software Engineering (PUCIT)", cutoff: 87.2, cat: "computing" }, 
-                        { name: "B.Sc Chemical Engineering", cutoff: 75.0, cat: "engineering" }, 
-                        { name: "BBA Honors", cutoff: 81.5, cat: "business" }
+                        { name: "BS Computer Science (PUCIT)", cutoff: 89.20, cat: "computing" }, 
+                        { name: "BS Software Engineering (PUCIT)", cutoff: 88.10, cat: "computing" }, 
+                        { name: "Doctor of Pharmacy (Pharm-D)", cutoff: 89.50, cat: "medical" },
+                        { name: "Doctor of Physical Therapy (DPT)", cutoff: 86.80, cat: "medical" },
+                        { name: "B.Sc Chemical Engineering", cutoff: 78.40, cat: "engineering" }, 
+                        { name: "BBA Honors", cutoff: 83.20, cat: "business" }
+                    ]
+                }
+            },
+            uhs: {
+                testName: "MDCAT Score", total: 200,
+                formulas: {
+                    computing: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    business: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    medical: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                },
+                campuses: {
+                    "Top Medical Colleges (Punjab)": [
+                        { name: "King Edward Medical University - KEMU (MBBS)", cutoff: 93.65, cat: "medical" },
+                        { name: "Allama Iqbal Medical College - AIMC (MBBS)", cutoff: 92.30, cat: "medical" },
+                        { name: "Services Institute of Medical Sciences - SIMS (MBBS)", cutoff: 91.60, cat: "medical" },
+                        { name: "Fatima Jinnah Medical University - FJMU (MBBS)", cutoff: 91.10, cat: "medical" },
+                        { name: "Rawalpindi Medical University - RMU (MBBS)", cutoff: 90.70, cat: "medical" },
+                        { name: "de'Montmorency College of Dentistry (BDS)", cutoff: 90.25, cat: "medical" },
+                        { name: "General Public MBBS Closing Cutoff", cutoff: 89.80, cat: "medical" }
+                    ]
+                }
+            },
+            nums: {
+                testName: "NUMS Entry Test Score", total: 150,
+                formulas: {
+                    computing: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    business: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    medical: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                },
+                campuses: {
+                    "Rawalpindi & Military Colleges": [
+                        { name: "Army Medical College - AMC (MBBS Open Merit)", cutoff: 91.80, cat: "medical" },
+                        { name: "Army Medical College - AMC (BDS Open Merit)", cutoff: 90.30, cat: "medical" },
+                        { name: "CMH Lahore Medical College (MBBS)", cutoff: 88.50, cat: "medical" },
+                        { name: "BS Human Nutrition & Dietetics", cutoff: 82.50, cat: "medical" },
+                        { name: "BS Nursing (Armed Forces / NUMS)", cutoff: 84.00, cat: "medical" }
+                    ]
+                }
+            },
+            dow: {
+                testName: "MDCAT Sindh Score", total: 200,
+                formulas: {
+                    computing: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    engineering: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    business: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
+                    medical: { heading: "PMDC / Sindh Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                },
+                campuses: {
+                    "Karachi Campuses": [
+                        { name: "Dow Medical College - DMC (MBBS)", cutoff: 88.60, cat: "medical" },
+                        { name: "SMC - JSMU Karachi (MBBS)", cutoff: 86.80, cat: "medical" },
+                        { name: "Dow International Medical College (MBBS)", cutoff: 85.40, cat: "medical" },
+                        { name: "Dr. Ishrat-ul-Ebad Dental College (BDS)", cutoff: 84.10, cat: "medical" },
+                        { name: "Pharm-D (Dow College of Pharmacy)", cutoff: 82.50, cat: "medical" }
+                    ]
+                }
+            },
+            aku: {
+                testName: "AKU Entry Test Score", total: 100,
+                formulas: {
+                    computing: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
+                    engineering: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
+                    business: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
+                    medical: { heading: "AKU Selection Assessment (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } }
+                },
+                campuses: {
+                    "Aga Khan University Karachi": [
+                        { name: "MBBS Program (Aga Khan Univ)", cutoff: 88.00, cat: "medical" },
+                        { name: "BS Nursing (BScN)", cutoff: 78.50, cat: "medical" }
                     ]
                 }
             }
@@ -551,6 +743,11 @@
             document.querySelectorAll('.uni-grid .uni-btn').forEach(b => b.classList.remove('active'));
             const targetedBtn = document.getElementById(`btn-${uniKey}`);
             if(targetedBtn) targetedBtn.classList.add('active');
+            
+            // Auto switch category if Medical Universities are selected
+            if(['uhs', 'nums', 'dow', 'aku'].includes(uniKey)) {
+                document.getElementById('programCategory').value = 'medical';
+            }
             syncLabels();
         };
 
@@ -586,18 +783,18 @@
 
         const localizedQuestions = {
             english: [
-                { q: "What kind of problems do you enjoy solving the most?", options: { computing: "Creating logic, coding or automating repetitive daily tasks", engineering: "Fixing gadgets, understanding mechanics or machine operations", business: "Managing money matters, marketing or leading a small team setup" } },
-                { q: "If given a weekend project, you would choose to:", options: { computing: "Build a website, launch a simple mobile app or make a macro script", engineering: "Deconstruct an engine, fix home wiring or design a 3D architecture structure", business: "Analyze stock profiles, pitch a startup idea or run a trade match" } },
-                { q: "Which subject line caught your maximum interest during college?", options: { computing: "Mathematics / Computer Science Foundations", engineering: "Physics Core / Practical Applied Mechanics", business: "Economics, Statistics, or Management Modules" } },
-                { q: "Your ideal daily workspace environment would be:", options: { computing: "Sitting at a clean desk environment working directly inside code compilers", engineering: "Visiting on-site structural constructions or assembly plants floors", business: "Presenting boardroom pitches or meeting enterprise financial clients" } },
-                { q: "When tech innovations hit market segments, what excites you most?", options: { computing: "The background code algorithms, AI models architectures and automation", engineering: "The hardware modifications, speed of components and solid microchips", business: "The valuation figures, sales metrics and marketing strategies deployed" } }
+                { q: "What kind of problems do you enjoy solving the most?", options: { computing: "Creating logic, coding or automating repetitive daily tasks", engineering: "Fixing gadgets, understanding mechanics or machine operations", business: "Managing money matters, marketing or leading a small team setup", medical: "Understanding human anatomy, healthcare treatment, or biological research" } },
+                { q: "If given a weekend project, you would choose to:", options: { computing: "Build a website, launch a simple mobile app or make a macro script", engineering: "Deconstruct an engine, fix home wiring or design a 3D architecture structure", business: "Analyze stock profiles, pitch a startup idea or run a trade match", medical: "Volunteer at a healthcare clinic, study human biology cases or medical lab tests" } },
+                { q: "Which subject line caught your maximum interest during college?", options: { computing: "Mathematics / Computer Science Foundations", engineering: "Physics Core / Practical Applied Mechanics", business: "Economics, Statistics, or Management Modules", medical: "Biology Core / Organic Chemistry & Human Physiology" } },
+                { q: "Your ideal daily workspace environment would be:", options: { computing: "Sitting at a clean desk environment working directly inside code compilers", engineering: "Visiting on-site structural constructions or assembly plants floors", business: "Presenting boardroom pitches or meeting enterprise financial clients", medical: "Working in hospitals, medical diagnostics laboratories, or patient care units" } },
+                { q: "When tech innovations hit market segments, what excites you most?", options: { computing: "The background code algorithms, AI models architectures and automation", engineering: "The hardware modifications, speed of components and solid microchips", business: "The valuation figures, sales metrics and marketing strategies deployed", medical: "Advanced robotic surgeries, life-saving drugs discovery, and biomedical devices" } }
             ],
             roman: [
-                { q: "Aapko kis tarah ke masle solve karne mein sabse zyada maza aata hai?", options: { computing: "Logic banana, coding karna ya daily tasks ko automate karna", engineering: "Gadgets theek karna, machines ya mechanics ka kaam samajhna", business: "Paison ka hisab, marketing karna ya kisi team ko lead karna" } },
-                { q: "Agar aapko weekend par koi project banana ho, toh aap kya chunenge?", options: { computing: "Koi website banana, mobile app launch karna ya coding script likhna", engineering: "Kisi cheez ka engine kholna, wiring theek karna ya 3D design banana", business: "Stock market analyze karna, startup idea pitch karna ya business deal chalana" } },
-                { q: "College mein kis subject ne aapka interest sabse zyada khoncha?", options: { computing: "Mathematics / Computer Science ki basics", engineering: "Physics ya practical applied machinery ka kaam", business: "Economics, Statistics, ya Business Management ke modules" } },
-                { q: "Aapke mutabiq aapka ideal daily office environment kaisa hona chahiye?", options: { computing: "Aik saaf desk par baith kar direct software compilers par kaam karna", engineering: "Construction sites par jaana ya mechanical plants ka visit karna", business: "Boardroom mein pitches dena ya bade financial clients se milna" } },
-                { q: "Jab market mein koi nayi technology aati hai, toh aapko sabse zyada kya excite karta hai?", options: { computing: "Uska background code algorithm, AI model aur automation systems", engineering: "Uska hardware engineering, components ki speed aur solid microchips", business: "Uske valuation figures, market shares aur launch hone ki strategy" } }
+                { q: "Aapko kis tarah ke masle solve karne mein sabse zyada maza aata hai?", options: { computing: "Logic banana, coding karna ya daily tasks ko automate karna", engineering: "Gadgets theek karna, machines ya mechanics ka kaam samajhna", business: "Paison ka hisab, marketing karna ya kisi team ko lead karna", medical: "Human body functions samajhna, patients ki care aur medical research" } },
+                { q: "Agar aapko weekend par koi project banana ho, toh aap kya chunenge?", options: { computing: "Koi website banana, mobile app launch karna ya coding script likhna", engineering: "Kisi cheez ka engine kholna, wiring theek karna ya 3D design banana", business: "Stock market analyze karna, startup idea pitch karna ya business deal chalana", medical: "Hospital visit karna, biological samples study karna ya medical cases dekhna" } },
+                { q: "College mein kis subject ne aapka interest sabse zyada khoncha?", options: { computing: "Mathematics / Computer Science ki basics", engineering: "Physics ya practical applied machinery ka kaam", business: "Economics, Statistics, ya Business Management ke modules", medical: "Biology, Chemistry, Human Anatomy aur Physiology" } },
+                { q: "Aapke mutabiq aapka ideal daily office environment kaisa hona chahiye?", options: { computing: "Aik saaf desk par baith kar direct software compilers par kaam karna", engineering: "Construction sites par jaana ya mechanical plants ka visit karna", business: "Boardroom mein pitches dena ya bade financial clients se milna", medical: "Hospitals, medical labs ya patient care clinics mein kaam karna" } },
+                { q: "Jab market mein koi nayi technology aati hai, toh aapko sabse zyada kya excite karta hai?", options: { computing: "Uska background code algorithm, AI model aur automation systems", engineering: "Uska hardware engineering, components ki speed aur solid microchips", business: "Uske valuation figures, market shares aur launch hone ki strategy", medical: "Naye medical treatments, robotic surgeries aur life-saving medicines" } }
             ]
         };
 
@@ -660,11 +857,12 @@
         const fieldSuggestions = {
             computing: ["Computer Science (BS CS)", "Software Engineering (BS SE)", "Artificial Intelligence (BS AI)", "Data Science (BS DS)", "Cyber Security (BS CY)", "Computer Engineering"],
             engineering: ["Mechanical Engineering", "Electrical Engineering", "Civil Engineering", "Mechatronics Engineering", "Chemical Engineering", "Architectural Engineering"],
-            business: ["Business Administration (BBA)", "Accounting & Finance (ACF)", "Architecture & Design", "Product & Industrial Design", "Business Analytics", "Business Data Analytics"]
+            business: ["Business Administration (BBA)", "Business Information & Technology (BBIT)", "Accounting & Finance (ACF)", "Architecture & Design", "Product & Industrial Design", "Business Analytics", "Business Data Analytics"],
+            medical: ["MBBS (Medicine & Surgery)", "BDS (Dental Surgery)", "Doctor of Pharmacy (Pharm-D)", "Doctor of Physical Therapy (DPT)", "Biomedical Sciences", "BS Biotechnology / Nursing"]
         };
 
         function evaluateQuizResults() {
-            let scores = { computing: 0, engineering: 0, business: 0 };
+            let scores = { computing: 0, engineering: 0, business: 0, medical: 0 };
             for(let i=0; i<currentActiveQuestionsPool.length; i++) {
                 const choice = quizAnswersCollected[i];
                 if(choice) scores[choice]++;
@@ -674,6 +872,7 @@
             let compPct = Math.round((scores.computing / totalAnswers) * 100);
             let engPct = Math.round((scores.engineering / totalAnswers) * 100);
             let bizPct = Math.round((scores.business / totalAnswers) * 100);
+            let medPct = Math.round((scores.medical / totalAnswers) * 100);
 
             tempRecommendedStream = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
 
@@ -687,6 +886,8 @@
             document.getElementById('bar-engineering').style.width = `${engPct}%`;
             document.getElementById('pct-business').textContent = `${bizPct}%`;
             document.getElementById('bar-business').style.width = `${bizPct}%`;
+            document.getElementById('pct-medical').textContent = `${medPct}%`;
+            document.getElementById('bar-medical').style.width = `${medPct}%`;
 
             const listWrapper = document.getElementById('recommendedFieldsList');
             listWrapper.innerHTML = "";
@@ -699,7 +900,7 @@
                 `;
             });
 
-            const streamTitles = { computing: "Computing & Software Tech Architectures", engineering: "Engineering & Mechanics Operations", business: "Business Leadership & Strategy Operations" };
+            const streamTitles = { computing: "Computing & Software Tech Architectures", engineering: "Engineering & Mechanics Operations", business: "Business Leadership & Strategy Operations", medical: "Medical, Clinical & Health Sciences" };
             document.getElementById('quizMainVerdictText').innerHTML = `Hey <strong>${activeVisitorName}</strong>, your profile shows dominant affinity towards <strong>${streamTitles[tempRecommendedStream]}</strong>. Below is your detailed breakdown map.`;
             
             if(typeof window.triggerFirebaseQuizFinalization === 'function') {
@@ -710,7 +911,12 @@
 
         window.proceedToChancesEngine = function() {
             document.getElementById('programCategory').value = tempRecommendedStream;
-            switchTabMode('predictor');
+            
+            if(tempRecommendedStream === 'medical') {
+                changeTargetUniversity('uhs');
+            } else {
+                switchTabMode('predictor');
+            }
         };
 
         window.executeAdmissionLogic = function(event) {
@@ -734,8 +940,8 @@
             document.getElementById('targetUniLabel').textContent = `${currentUni.toUpperCase()} OFFICIAL CALCULATOR`;
 
             const insightBox = document.getElementById('reportInsightBox');
-            if (finalAggregate >= 78) { insightBox.textContent = "🚀 Outstanding merit profile! You are highly safe for top choices across major engineering and tech fields."; }
-            else if (finalAggregate >= 68 && finalAggregate < 78) { insightBox.textContent = "💡 Competitive score! You have solid parameters for core programs. Target regular campus selections."; }
+            if (finalAggregate >= 82) { insightBox.textContent = "🚀 Outstanding merit profile! You are highly safe for top choices across major engineering, medical, and tech fields."; }
+            else if (finalAggregate >= 72 && finalAggregate < 82) { insightBox.textContent = "💡 Competitive score! You have solid parameters for core programs. Target regular campus selections."; }
             else { insightBox.textContent = "⚠️ Fair score profile. We recommend reviewing secondary preferences or self-finance options to secure admission."; }
 
             const campusesWrapper = document.getElementById('predictionCampusesWrapper');
