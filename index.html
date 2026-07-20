@@ -250,6 +250,47 @@
         }
         .btn-submit:hover { background: var(--mint-800); transform: translateY(-1px); }
 
+        /* COUNSELING SECTION STYLING */
+        .counseling-container { display: none; margin-top: 10px; }
+        .counseling-container.visible { display: block; animation: fadeInUp 0.4s ease; }
+        
+        .mentor-card-header {
+            background: linear-gradient(135deg, var(--mint-100) 0%, #ffffff 100%);
+            border: 1px solid var(--mint-300);
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        @media(max-width: 600px) { .mentor-card-header { flex-direction: column; text-align: center; } }
+
+        .mentor-avatar {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: var(--mint-700); color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 700;
+            border: 4px solid var(--mint-200); box-shadow: 0 8px 20px var(--accent-glow); flex-shrink: 0;
+        }
+
+        .pricing-badge-box {
+            background: var(--mint-700); color: #ffffff;
+            padding: 16px 20px; border-radius: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; box-shadow: 0 10px 25px -5px var(--accent-glow);
+        }
+
+        .payment-instructions-box {
+            background: var(--mint-100); border: 2px dashed var(--mint-700);
+            border-radius: 16px; padding: 20px; margin-top: 20px; margin-bottom: 24px;
+        }
+
+        .success-message-box {
+            display: none; background: rgba(16, 185, 129, 0.12); border: 1px solid #10b981;
+            color: #065f46; border-radius: 16px; padding: 24px; text-align: center; margin-top: 20px;
+        }
+
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleUpPage { from { transform: scale(0.97); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes slideInRight { from { transform: translateX(30px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -278,11 +319,13 @@
     </div>
 
     <main class="main-content">
-        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;" id="modeTabsWrapper">
+        <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;" id="modeTabsWrapper">
             <button class="mode-btn active" id="predictorModeBtn" onclick="switchTabMode('predictor')">Admission Predictor</button>
             <button class="mode-btn" id="quizModeBtn" onclick="switchTabMode('quiz')"> Career Finder Quiz</button>
+            <button class="mode-btn" id="counselingModeBtn" onclick="switchTabMode('counseling')"> 1-on-1 Counseling</button>
         </div>
 
+        <!-- CAREER QUIZ SECTION -->
         <div id="quizSection" class="quiz-container">
             <div class="calc-page-header">
                 <h1 class="calc-page-title">Career <span class="text-outline">Finder</span></h1>
@@ -324,6 +367,7 @@
             </div>
         </div>
 
+        <!-- QUIZ RESULTS SCREEN -->
         <div id="quizResultsScreen" class="quiz-results-screen main-content" style="margin: 0; padding: 0;">
             <div class="calc-page-header">
                 <div class="celebration-badge">✨ AI Analysis Complete</div>
@@ -360,6 +404,7 @@
             </div>
         </div>
 
+        <!-- ADMISSION PREDICTOR SECTION -->
         <div id="predictorSection">
             <div class="calc-page-header">
                 <h1 class="calc-page-title">Admission <span class="text-outline">Predictor</span></h1>
@@ -453,6 +498,100 @@
                 </div>
             </div>
         </div>
+
+        <!-- 1-ON-1 COUNSELING SECTION -->
+        <div id="counselingSection" class="counseling-container">
+            <div class="calc-page-header">
+                <h1 class="calc-page-title">1-on-1 Private <span class="text-outline">Counseling</span></h1>
+                <p class="calc-page-subtitle">Get personalized roadmaps, degree choices, and university entry strategies.</p>
+            </div>
+
+            <div class="calc-card">
+                <div class="mentor-card-header">
+                    <div class="mentor-avatar">PU</div>
+                    <div>
+                        <h2 style="margin: 0 0 6px 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; color: var(--text-primary);">Professor Uzair</h2>
+                        <p style="margin: 0; font-size: 0.92rem; color: var(--text-secondary); font-weight: 500;">Senior Academic Consultant & Career Strategist</p>
+                        <p style="margin: 6px 0 0 0; font-size: 0.85rem; color: var(--text-tertiary);">Helped 1,000+ students secure entry into UET, NUST, FAST, LUMS & Top Medical Colleges.</p>
+                    </div>
+                </div>
+
+                <div class="pricing-badge-box">
+                    <div>
+                        <div style="font-size: 0.8rem; text-transform: uppercase; opacity: 0.9; letter-spacing: 0.05em; font-weight: 600;">Personal Session</div>
+                        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700;">45 Minutes Online Consultation</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.8rem; opacity: 0.9;">Total Fee</div>
+                        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;">PKR 2,000</div>
+                    </div>
+                </div>
+
+                <form id="counselingBookingForm" onsubmit="handleCounselingBookingSubmit(event)">
+                    <div class="input-card">
+                        <h3 style="margin-top:0; font-family:'Space Grotesk', sans-serif; font-size:1.1rem; color:var(--mint-800);">1. Student Details</h3>
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="counselName" placeholder="e.g. Muhammad Hassan" required>
+                            </div>
+                            <div>
+                                <label class="form-label">WhatsApp Number</label>
+                                <input type="tel" id="counselWhatsapp" placeholder="e.g. 03001234567" required>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 14px;">
+                            <label class="form-label">Target Universities / Primary Query</label>
+                            <input type="text" id="counselQuery" placeholder="e.g. Choosing between FAST CS vs UET AI, merit chances" required>
+                        </div>
+
+                        <div class="form-grid" style="margin-top: 14px;">
+                            <div>
+                                <label class="form-label">Preferred Date</label>
+                                <input type="date" id="counselDate" required>
+                            </div>
+                            <div>
+                                <label class="form-label">Preferred Time Slot</label>
+                                <select id="counselSlot" required>
+                                    <option value="">Select Time Slot</option>
+                                    <option value="4:00 PM - 4:45 PM">4:00 PM - 4:45 PM</option>
+                                    <option value="6:00 PM - 6:45 PM">6:00 PM - 6:45 PM</option>
+                                    <option value="8:00 PM - 8:45 PM">8:00 PM - 8:45 PM</option>
+                                    <option value="10:00 PM - 10:45 PM">10:00 PM - 10:45 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-instructions-box">
+                        <h3 style="margin-top: 0; font-family: 'Space Grotesk', sans-serif; color: var(--mint-800); font-size: 1.1rem;">2. Payment Method (JazzCash / EasyPaisa)</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5;">
+                            Please send <strong>PKR 1,000</strong> fee to the following account and enter your Transaction ID (TID) below:
+                        </p>
+                        
+                        <div style="background: #ffffff; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--mint-300); font-size: 0.92rem; margin-bottom: 16px;">
+                            <div><strong>Account Title:</strong> Muhammad Mubeen Sarfraz </div>
+                            <div style="margin-top: 4px;"><strong>Nayapay:</strong> <span style="font-family: monospace; font-size: 1.05rem; font-weight: 700; color: var(--mint-800);">0300-4516944</span></div>
+                        </div>
+
+                        <div>
+                            <label class="form-label">Transaction ID (TID Number)</label>
+                            <input type="text" id="counselTid" placeholder="e.g. 82710394812" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="counselSubmitBtn">Confirm Booking & Submit Proof &rarr;</button>
+                </form>
+
+                <div id="counselingSuccessBox" class="success-message-box">
+                    <h3 style="margin-top: 0; font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem;">🎉 Booking Details Submitted!</h3>
+                    <p style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.5;">
+                        Thank you <strong id="successStudentName">Student</strong>. Your slot request and payment reference have been sent for verification. Professor Uzair's team will contact you on WhatsApp (<strong id="successWhatsapp">03000000000</strong>) within 2-4 hours to confirm your Zoom/Google Meet link.
+                    </p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -460,6 +599,7 @@
         window.triggerFirebaseLeadRegistration = function(){};
         window.triggerFirebaseQuizFinalization = function(){};
         window.triggerFirebaseCalculationTracking = function(){};
+        window.triggerFirebaseCounselingBooking = function(){};
 
         const database = {
             uet: {
@@ -683,21 +823,28 @@
 
         window.switchTabMode = function(mode) {
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Hide all tab containers
+            document.getElementById('predictorSection').style.display = "none";
+            document.getElementById('quizSection').classList.remove('visible');
+            document.getElementById('quizResultsScreen').classList.remove('visible');
+            document.getElementById('counselingSection').classList.remove('visible');
+
             if(mode === 'predictor') {
                 document.getElementById('predictorModeBtn').classList.add('active');
                 document.getElementById('predictorSection').style.display = "block";
-                document.getElementById('quizSection').classList.remove('visible');
-                document.getElementById('quizResultsScreen').classList.remove('visible');
                 document.getElementById('modeTabsWrapper').style.display = "flex";
-            } else {
+            } else if(mode === 'quiz') {
                 document.getElementById('quizModeBtn').classList.add('active');
                 document.getElementById('quizSection').classList.add('visible');
-                document.getElementById('predictorSection').style.display = "none";
-                document.getElementById('quizResultsScreen').classList.remove('visible');
                 document.getElementById('modeTabsWrapper').style.display = "flex";
                 document.getElementById('langSelectorBox').style.display = "block";
                 document.getElementById('quizQuestionsArea').style.display = "none";
                 document.getElementById('quizProgressWrapper').style.display = "none";
+            } else if(mode === 'counseling') {
+                document.getElementById('counselingModeBtn').classList.add('active');
+                document.getElementById('counselingSection').classList.add('visible');
+                document.getElementById('modeTabsWrapper').style.display = "flex";
             }
         };
 
@@ -954,6 +1101,40 @@
             reportPanel.scrollIntoView({ behavior: 'smooth' });
         };
 
+        window.handleCounselingBookingSubmit = function(event) {
+            if(event) event.preventDefault();
+
+            const cName = document.getElementById('counselName').value.trim();
+            const cWhatsapp = document.getElementById('counselWhatsapp').value.trim();
+            const cQuery = document.getElementById('counselQuery').value.trim();
+            const cDate = document.getElementById('counselDate').value;
+            const cSlot = document.getElementById('counselSlot').value;
+            const cTid = document.getElementById('counselTid').value.trim();
+
+            if(!cName || !cWhatsapp || !cQuery || !cDate || !cSlot || !cTid) {
+                alert("Please fill all booking details and payment TID.");
+                return;
+            }
+
+            if(typeof window.triggerFirebaseCounselingBooking === 'function') {
+                window.triggerFirebaseCounselingBooking({
+                    studentName: cName,
+                    whatsapp: cWhatsapp,
+                    query: cQuery,
+                    preferredDate: cDate,
+                    timeSlot: cSlot,
+                    transactionId: cTid,
+                    feeAmount: "PKR 2,000",
+                    mentor: "Professor Uzair"
+                });
+            }
+
+            document.getElementById('counselingBookingForm').style.display = "none";
+            document.getElementById('successStudentName').textContent = cName;
+            document.getElementById('successWhatsapp').textContent = cWhatsapp;
+            document.getElementById('counselingSuccessBox').style.display = "block";
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             syncLabels();
         });
@@ -1021,6 +1202,10 @@
                 streamType: category,
                 aggregateOutput: outputScore
             });
+        };
+
+        window.triggerFirebaseCounselingBooking = function(bookingData) {
+            publishAnalyticsEvent("Counseling Booking Submitted", bookingData);
         };
     </script>
 </body>
