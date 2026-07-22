@@ -79,7 +79,7 @@
         
         .calc-page-title { 
             font-family: 'Space Grotesk', sans-serif; 
-            font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin: 0; 
+            font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; margin: 0; 
             color: var(--text-primary); letter-spacing: -0.03em; line-height: 1.18;
         }
         .text-gradient {
@@ -87,7 +87,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .calc-page-subtitle { color: var(--text-secondary); margin-top: 10px; font-size: clamp(0.92rem, 2.5vw, 1.1rem); font-weight: 500; }
+        .calc-page-subtitle { color: var(--text-secondary); margin-top: 10px; font-size: clamp(0.88rem, 2.5vw, 1.1rem); font-weight: 500; }
 
         .calc-card {
             background: var(--bg-surface);
@@ -99,37 +99,60 @@
             .calc-card { padding: 18px; border-radius: 20px; }
         }
 
-        /* NAVIGATION TABS MOBILE OPTIMIZED */
+        /* PERFECT RESPONSIVE NAVIGATION TABS FIX */
         .tabs-nav-outer {
             text-align: center;
             margin-bottom: 28px;
             width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 4px;
         }
 
         #modeTabsWrapper {
-            background: rgba(255, 255, 255, 0.85); padding: 5px;
-            border-radius: 20px; border: 1px solid var(--mint-200);
-            display: inline-flex; backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85); 
+            padding: 6px;
+            border-radius: 22px; 
+            border: 1px solid var(--mint-200);
+            display: inline-flex; 
+            backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-            max-width: 100%;
             gap: 4px;
-            white-space: nowrap;
+            max-width: 100%;
         }
 
         .mode-btn {
-            padding: 10px 18px; border: none; background: transparent;
+            padding: 12px 20px; border: none; background: transparent;
             color: var(--text-secondary); font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700; font-size: clamp(0.82rem, 2vw, 0.92rem); border-radius: 14px; 
+            font-weight: 700; font-size: 0.92rem; border-radius: 16px; 
             cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            flex-shrink: 0;
+            white-space: nowrap;
         }
         .mode-btn:hover { color: var(--mint-700); background: var(--mint-50); }
         .mode-btn.active { 
             background: linear-gradient(135deg, var(--mint-600), var(--mint-700)) !important; 
             color: #ffffff !important; box-shadow: 0 8px 20px -4px var(--accent-glow); 
+        }
+
+        /* MOBILE OVERFLOW & RESPONSIVE FIX FOR TABS */
+        @media (max-width: 680px) {
+            .tabs-nav-outer {
+                padding: 0;
+            }
+            #modeTabsWrapper {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+                border-radius: 18px;
+                padding: 6px;
+                gap: 6px;
+            }
+            .mode-btn {
+                width: 100%;
+                padding: 12px 8px;
+                font-size: 0.82rem;
+                text-align: center;
+                border-radius: 12px;
+                white-space: normal;
+                line-height: 1.25;
+            }
         }
 
         .input-card { 
@@ -319,7 +342,6 @@
             margin-bottom: 18px; padding: 0 4px; font-size: 0.88rem; font-weight: 700; color: var(--text-secondary);
         }
 
-        /* FLEXIBLE RESPONSIVE CARDS GRID */
         .uni-cards-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px;
         }
