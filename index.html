@@ -535,10 +535,6 @@
                             <label class="form-label">Your Full Name</label>
                             <input type="text" id="visitorName" placeholder="e.g. Ali Ahmed">
                         </div>
-                        <div>
-                            <label class="form-label">WhatsApp Number</label>
-                            <input type="tel" id="visitorWhatsapp" placeholder="e.g. 03001234567">
-                        </div>
                     </div>
                 </div>
 
@@ -1372,15 +1368,13 @@
 
         window.validateLeadFormAndStart = function(langKey) {
             const nameInput = document.getElementById('visitorName').value.trim();
-            const whatsappInput = document.getElementById('visitorWhatsapp').value.trim();
 
-            if(nameInput === "" || whatsappInput === "") {
-                alert("Please enter both your Name and WhatsApp Number to begin the AI Career Quiz.");
+            if(nameInput === "") {
+                alert("Please enter your Name to begin the AI Career Quiz.");
                 return;
             }
             
             activeVisitorName = nameInput;
-            activeVisitorWhatsapp = whatsappInput;
             
             if(typeof window.triggerFirebaseLeadRegistration === 'function') {
                 window.triggerFirebaseLeadRegistration(activeVisitorName, activeVisitorWhatsapp);
@@ -1672,13 +1666,12 @@
         });
 
         window.triggerFirebaseLeadRegistration = function(name, whatsapp) {
-            publishAnalyticsEvent("Quiz Lead Registered", { studentName: name, whatsappNumber: whatsapp });
+            publishAnalyticsEvent("Quiz Lead Registered", { studentName: name, whatsappNumber: whatsapp || "N/A" });
         };
 
         window.triggerFirebaseQuizFinalization = function(recommendedPath) {
             publishAnalyticsEvent("Quiz Finalized", { 
                 studentName: window.activeVisitorName,
-                whatsappNumber: document.getElementById('visitorWhatsapp').value,
                 recommendedPath: recommendedPath
             });
         };
