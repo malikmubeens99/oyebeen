@@ -130,9 +130,7 @@
         }
 
         @media (max-width: 680px) {
-            .tabs-nav-outer {
-                padding: 0;
-            }
+            .tabs-nav-outer { padding: 0; }
             #modeTabsWrapper {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
@@ -472,7 +470,7 @@
                 <div class="filter-controls-grid">
                     <div>
                         <label class="form-label">Search University</label>
-                        <input type="text" id="uniSearchInput" placeholder="🔍 e.g. FAST, NUST, UET..." onkeyup="filterUniversitiesList()">
+                        <input type="text" id="uniSearchInput" placeholder="🔍 e.g. FAST, NUST, PU, UET..." onkeyup="filterUniversitiesList()">
                     </div>
 
                     <div>
@@ -606,14 +604,14 @@
                 <div class="input-card">
                     <label class="form-label">Select Target University</label>
                     <div class="uni-grid">
-                        <button type="button" id="btn-uet" class="uni-btn active" onclick="changeTargetUniversity('uet')">UET (Taxila / Lhr)</button>
+                        <button type="button" id="btn-pu" class="uni-btn active" onclick="changeTargetUniversity('pu')">Punjab University (PU / PUCIT)</button>
+                        <button type="button" id="btn-uet" class="uni-btn" onclick="changeTargetUniversity('uet')">UET (Taxila / Lhr)</button>
                         <button type="button" id="btn-fast" class="uni-btn" onclick="changeTargetUniversity('fast')">FAST-NUCES (Lhr/Isb)</button>
                         <button type="button" id="btn-fastkhi" class="uni-btn" onclick="changeTargetUniversity('fastkhi')">FAST Karachi</button>
                         <button type="button" id="btn-lums" class="uni-btn" onclick="changeTargetUniversity('lums')">LUMS Lahore</button>
                         <button type="button" id="btn-nust" class="uni-btn" onclick="changeTargetUniversity('nust')">NUST</button>
                         <button type="button" id="btn-giki" class="uni-btn" onclick="changeTargetUniversity('giki')">GIKI Swabi</button>
                         <button type="button" id="btn-comsats" class="uni-btn" onclick="changeTargetUniversity('comsats')">COMSATS</button>
-                        <button type="button" id="btn-pu" class="uni-btn" onclick="changeTargetUniversity('pu')">Punjab University (PU)</button>
                         <button type="button" id="btn-uhs" class="uni-btn" onclick="changeTargetUniversity('uhs')">UHS Medical (KEMU/AIMC/SIMS)</button>
                         <button type="button" id="btn-nums" class="uni-btn" onclick="changeTargetUniversity('nums')">NUMS (Rawalpindi)</button>
                         <button type="button" id="btn-dow" class="uni-btn" onclick="changeTargetUniversity('dow')">DOW / DUHS Karachi</button>
@@ -624,14 +622,14 @@
                 <div class="input-card">
                     <label class="form-label">Select Program Stream Category</label>
                     <select id="programCategory" onchange="syncLabels()">
-                        <option value="computing">Computing Fields (CS, SE, AI, DS, Cyber Security)</option>
-                        <option value="engineering">Engineering Fields (Mechanical, Electrical, Civil, etc.)</option>
-                        <option value="business">Business & Non-ECAT Programs (BBA, BBIT, Chemistry, Physics, Math, etc.)</option>
-                        <option value="medical">Medical & Health Sciences (MBBS, BDS, DPT, Pharm-D, Nursing)</option>
+                        <option value="computing">Computing Fields (CS, SE, AI, DS, IT)</option>
+                        <option value="engineering">Engineering Fields (Chemical, Electrical, Materials, etc.)</option>
+                        <option value="business">Business & Social Sciences (BBA, BBIT, Economics, Law, Natural Sci)</option>
+                        <option value="medical">Medical & Life Sciences (Pharm-D, DPT, Biotech, MMG)</option>
                     </select>
                 </div>
 
-                <div id="formulaHeading" class="formula-heading">Target Formula Setup: UET Official Formula (17% Matric, 50% FSc, 33% ECAT)</div>
+                <div id="formulaHeading" class="formula-heading">Target Formula Setup: PU Official Formula (75% Academic Record + 25% PU Entry Test)</div>
 
                 <form id="predictorEngineForm" onsubmit="executeAdmissionLogic(event)">
                     <div class="form-grid">
@@ -640,16 +638,16 @@
                             <div class="input-row">
                                 <input type="number" id="mObt" placeholder="Obtained" required min="1">
                                 <span class="separator">/</span>
-                                <input type="number" id="mTot" value="1200" required min="1">
+                                <input type="number" id="mTot" value="1100" required min="1">
                             </div>
                         </div>
 
                         <div class="input-card" style="margin:0;">
-                            <label class="form-label">Intermediate Marks</label>
+                            <label class="form-label">Intermediate Marks (FSc/ICS/FA)</label>
                             <div class="input-row">
                                 <input type="number" id="iObt" placeholder="Obtained" required min="1">
                                 <span class="separator">/</span>
-                                <input type="number" id="iTot" value="570" required min="1">
+                                <input type="number" id="iTot" value="1100" required min="1">
                             </div>
                         </div>
                     </div>
@@ -657,7 +655,7 @@
                     <div class="form-grid" style="margin-top: 16px;" id="entryTestRowWrapper">
                         <div class="input-card" style="margin:0;">
                             <label class="form-label">Exam Category</label>
-                            <input type="text" id="testLabel" value="ECAT Test Score" readonly class="readonly-input">
+                            <input type="text" id="testLabel" value="PU Entry Test Score" readonly class="readonly-input">
                         </div>
 
                         <div class="input-card" style="margin:0;">
@@ -665,7 +663,7 @@
                             <div class="input-row">
                                 <input type="number" id="tObt" placeholder="Obtained" min="0">
                                 <span class="separator">/</span>
-                                <input type="number" id="tTot" value="400" readonly class="readonly-input">
+                                <input type="number" id="tTot" value="100" readonly class="readonly-input">
                             </div>
                         </div>
                     </div>
@@ -747,7 +745,7 @@
 
                         <div style="margin-top: 14px;">
                             <label class="form-label">Target Universities / Primary Query</label>
-                            <input type="text" id="counselQuery" placeholder="e.g. Choosing between FAST CS vs UET AI, merit chances" required>
+                            <input type="text" id="counselQuery" placeholder="e.g. Choosing between FAST CS vs PU CS, merit chances" required>
                         </div>
 
                         <div class="form-grid" style="margin-top: 14px;">
@@ -823,27 +821,27 @@
             }
         };
 
-        // PAKISTAN UNIVERSITIES CLEAN FEE & RANKING DIRECTORY
+        // PAKISTAN UNIVERSITIES CLEAN FEE & RANKING DIRECTORY (UPDATED 2025/2026)
         const universitiesFeeData = [
+            {
+                name: "University of the Punjab (PU / PUCIT)",
+                city: "Lahore",
+                sector: "Public",
+                category: "general",
+                rankInPakistan: "Rank #1 (Public General)",
+                feePerSemester: "PKR 38,000 - 52,000",
+                admissionFee: "PKR 18,000",
+                note: "Regular Morning ~38k-52k/sem. Evening / Self-Supporting programs ~78,000 - 95,000 PKR per semester."
+            },
             {
                 name: "NUST (National Univ of Sciences & Tech)",
                 city: "Islamabad",
                 sector: "Public",
                 category: "engineering",
                 rankInPakistan: "Rank #1 (Engineering / Tech)",
-                feePerSemester: "PKR 197,050",
-                admissionFee: "PKR 35,000",
-                note: "Engineering & CS ~197k/sem. Business & Management ~275k/sem. Architecture/SADA ~240k/sem."
-            },
-            {
-                name: "LUMS (Lahore Univ of Management Sciences)",
-                city: "Lahore",
-                sector: "Private",
-                category: "general",
-                rankInPakistan: "Rank #1 (Business & Management)",
-                feePerSemester: "PKR 580,000 - 680,000",
-                admissionFee: "PKR 45,000",
-                note: "Top tier private institution. Need-blind financial aid & scholarships available."
+                feePerSemester: "PKR 210,000 - 240,000",
+                admissionFee: "PKR 38,000",
+                note: "Engineering & CS ~210k/sem. Business & Management ~295k/sem. Architecture ~250k/sem."
             },
             {
                 name: "FAST-NUCES",
@@ -851,9 +849,9 @@
                 sector: "Private",
                 category: "cs",
                 rankInPakistan: "Rank #1 (Computer Science & IT)",
-                feePerSemester: "PKR 195,000 - 225,000",
-                admissionFee: "PKR 30,000",
-                note: "Per credit hour rate approx PKR 11,500 - 12,000. Known for rigorous CS standards."
+                feePerSemester: "PKR 215,000 - 245,000",
+                admissionFee: "PKR 32,000",
+                note: "Per credit hour rate approx PKR 12,500. Recognized nationally for rigorous software development."
             },
             {
                 name: "UET Lahore",
@@ -861,9 +859,19 @@
                 sector: "Public",
                 category: "engineering",
                 rankInPakistan: "Rank #2 (Engineering Sector)",
-                feePerSemester: "PKR 68,000 - 96,000",
-                admissionFee: "PKR 25,000",
-                note: "Subsidized open-merit public seats. Self-finance/A2 seats ~120,000 PKR/sem."
+                feePerSemester: "PKR 75,000 - 105,000",
+                admissionFee: "PKR 28,000",
+                note: "Subsidized open-merit public seats. Self-finance/A2 seats ~135,000 PKR/sem."
+            },
+            {
+                name: "LUMS (Lahore Univ of Management Sciences)",
+                city: "Lahore",
+                sector: "Private",
+                category: "general",
+                rankInPakistan: "Rank #1 (Business & Management)",
+                feePerSemester: "PKR 620,000 - 740,000",
+                admissionFee: "PKR 50,000",
+                note: "Top tier private institution. Need-blind financial aid & scholarships available."
             },
             {
                 name: "GIKI (Ghulam Ishaq Khan Institute)",
@@ -871,9 +879,9 @@
                 sector: "Private",
                 category: "engineering",
                 rankInPakistan: "Rank #3 (Top Private Tech)",
-                feePerSemester: "PKR 460,000 - 520,000",
-                admissionFee: "PKR 35,000",
-                note: "Residential engineering institute. Hostel & mess ~80,000 PKR per semester."
+                feePerSemester: "PKR 490,000 - 550,000",
+                admissionFee: "PKR 40,000",
+                note: "Residential engineering institute. Hostel & mess ~85,000 PKR per semester."
             },
             {
                 name: "COMSATS University Islamabad",
@@ -881,19 +889,9 @@
                 sector: "Public",
                 category: "cs",
                 rankInPakistan: "Rank #3 (General & CS)",
-                feePerSemester: "PKR 135,000 - 165,000",
-                admissionFee: "PKR 22,000",
-                note: "Main Islamabad & Lahore campuses ~160k 1st semester. Regional campuses slightly lower."
-            },
-            {
-                name: "University of the Punjab (PU / PUCIT)",
-                city: "Lahore",
-                sector: "Public",
-                category: "general",
-                rankInPakistan: "Rank #2 (Overall Public)",
-                feePerSemester: "PKR 35,000 - 50,000",
-                admissionFee: "PKR 15,000",
-                note: "Morning regular ~35k/sem. Evening self-supporting ~70k-85k/sem."
+                feePerSemester: "PKR 145,000 - 175,000",
+                admissionFee: "PKR 25,000",
+                note: "Main Islamabad & Lahore campuses ~170k 1st semester. Regional campuses slightly lower."
             },
             {
                 name: "King Edward Medical University (KEMU)",
@@ -901,8 +899,8 @@
                 sector: "Public",
                 category: "medical",
                 rankInPakistan: "Rank #1 (Public Medical)",
-                feePerSemester: "PKR 35,000 - 45,000",
-                admissionFee: "PKR 20,000",
+                feePerSemester: "PKR 38,000 - 48,000",
+                admissionFee: "PKR 22,000",
                 note: "Punjab domicile open merit seats. Government heavily subsidized tuition."
             },
             {
@@ -911,8 +909,8 @@
                 sector: "Private",
                 category: "medical",
                 rankInPakistan: "Rank #1 (Private Medical)",
-                feePerSemester: "PKR 1,150,000 - 1,400,000",
-                admissionFee: "PKR 60,000",
+                feePerSemester: "PKR 1,250,000 - 1,500,000",
+                admissionFee: "PKR 65,000",
                 note: "World renowned medical university. Generous need-sensitive scholarships available."
             },
             {
@@ -921,8 +919,8 @@
                 sector: "Public",
                 category: "engineering",
                 rankInPakistan: "Rank #5 (Engineering)",
-                feePerSemester: "PKR 65,000 - 90,000",
-                admissionFee: "PKR 22,000",
+                feePerSemester: "PKR 70,000 - 95,000",
+                admissionFee: "PKR 25,000",
                 note: "Government subsidized fees for engineering discipline."
             },
             {
@@ -931,8 +929,8 @@
                 sector: "Public",
                 category: "cs",
                 rankInPakistan: "Top 10 (CS & Telecom)",
-                feePerSemester: "PKR 115,000 - 140,000",
-                admissionFee: "PKR 20,000",
+                feePerSemester: "PKR 125,000 - 150,000",
+                admissionFee: "PKR 22,000",
                 note: "Supervised by Pakistan Air Force auxiliary foundation."
             },
             {
@@ -941,8 +939,8 @@
                 sector: "Public",
                 category: "general",
                 rankInPakistan: "Top 12 (Multidisciplinary)",
-                feePerSemester: "PKR 120,000 - 150,000",
-                admissionFee: "PKR 22,000",
+                feePerSemester: "PKR 130,000 - 160,000",
+                admissionFee: "PKR 25,000",
                 note: "Campuses in Islamabad, Karachi, and Lahore."
             },
             {
@@ -951,19 +949,9 @@
                 sector: "Public",
                 category: "medical",
                 rankInPakistan: "Rank #2 (Sindh Medical)",
-                feePerSemester: "PKR 65,000 - 95,000",
-                admissionFee: "PKR 25,000",
-                note: "Sindh open merit candidates subsidized. Self-finance ~800k+/year."
-            },
-            {
-                name: "NUTECH (National Univ of Technology)",
-                city: "Islamabad",
-                sector: "Public",
-                category: "engineering",
-                rankInPakistan: "Top Emerging Tech Institute",
-                feePerSemester: "PKR 115,000 - 135,000",
-                admissionFee: "PKR 25,000",
-                note: "Applied industry focused engineering curriculum."
+                feePerSemester: "PKR 70,000 - 100,000",
+                admissionFee: "PKR 28,000",
+                note: "Sindh open merit candidates subsidized. Self-finance ~850k+/year."
             },
             {
                 name: "UCP (University of Central Punjab)",
@@ -971,8 +959,8 @@
                 sector: "Private",
                 category: "general",
                 rankInPakistan: "Top 5 (Private Punjab)",
-                feePerSemester: "PKR 165,000 - 215,000",
-                admissionFee: "PKR 25,000",
+                feePerSemester: "PKR 175,000 - 225,000",
+                admissionFee: "PKR 28,000",
                 note: "Up to 100% PGC & merit scholarship waivers offered."
             },
             {
@@ -981,8 +969,8 @@
                 sector: "Private",
                 category: "general",
                 rankInPakistan: "Top 6 (Private Punjab)",
-                feePerSemester: "PKR 160,000 - 210,000",
-                admissionFee: "PKR 25,000",
+                feePerSemester: "PKR 170,000 - 220,000",
+                admissionFee: "PKR 28,000",
                 note: "Extensive merit-based and need-based fee waivers available."
             }
         ];
@@ -1062,14 +1050,101 @@
             renderUniversitiesGrid(filtered);
         };
 
+        // DATABASE WITH PUNJAB UNIVERSITY (PU) OFFICIAL FORMULA & EXTENDED CAMPUS FIELDS
         const database = {
+            pu: {
+                testName: "PU Entry Test Score", total: 100,
+                formulas: {
+                    computing: { 
+                        heading: "PU Official Formula (75% Academic Record + 25% PU Entry Test)", 
+                        calc: function(mObt, mTot, iObt, iTot, tObt, tTot) { 
+                            let acadObt = (mObt / 4) + iObt;
+                            let acadTot = (mTot / 4) + iTot;
+                            let acadWeightage = (acadObt / acadTot) * 75;
+                            let testWeightage = (tObt / tTot) * 25;
+                            return acadWeightage + testWeightage;
+                        } 
+                    },
+                    engineering: { 
+                        heading: "PU Official Engineering Formula (67% Academic + 33% Entry Test)", 
+                        calc: function(mObt, mTot, iObt, iTot, tObt, tTot) { 
+                            let acadObt = (mObt / 4) + iObt;
+                            let acadTot = (mTot / 4) + iTot;
+                            let acadWeightage = (acadObt / acadTot) * 67;
+                            let testWeightage = (tObt / tTot) * 33;
+                            return acadWeightage + testWeightage;
+                        } 
+                    },
+                    business: { 
+                        heading: "PU Non-Test / General Academic Formula (100% Academic Weightage)", 
+                        calc: function(mObt, mTot, iObt, iTot, tObt, tTot) { 
+                            let acadObt = (mObt / 4) + iObt;
+                            let acadTot = (mTot / 4) + iTot;
+                            return (acadObt / acadTot) * 100;
+                        } 
+                    },
+                    medical: { 
+                        heading: "PU Health Sciences Formula (75% Academic + 25% Test)", 
+                        calc: function(mObt, mTot, iObt, iTot, tObt, tTot) { 
+                            let acadObt = (mObt / 4) + iObt;
+                            let acadTot = (mTot / 4) + iTot;
+                            let acadWeightage = (acadObt / acadTot) * 75;
+                            let testWeightage = (tObt / tTot) * 25;
+                            return acadWeightage + testWeightage;
+                        } 
+                    }
+                },
+                campuses: {
+                    "💻 FCIT / PUCIT (Computing Campus)": [
+                        { name: "BS Computer Science (Morning)", cutoff: 88.50, cat: "computing", isNonEcat: false },
+                        { name: "BS Software Engineering (Morning)", cutoff: 87.80, cat: "computing", isNonEcat: false },
+                        { name: "BS Artificial Intelligence (Morning)", cutoff: 86.90, cat: "computing", isNonEcat: false },
+                        { name: "BS Data Science (Morning)", cutoff: 86.10, cat: "computing", isNonEcat: false },
+                        { name: "BS Information Technology (Morning)", cutoff: 85.40, cat: "computing", isNonEcat: false },
+                        { name: "BS Computer Science (Self-Supporting)", cutoff: 83.40, cat: "computing", isNonEcat: false },
+                        { name: "BS Software Engineering (Self-Supporting)", cutoff: 82.20, cat: "computing", isNonEcat: false }
+                    ],
+                    "📊 Business & Commerce (Hailey / IBA)": [
+                        { name: "BBA Honors (Morning)", cutoff: 84.10, cat: "business", isNonEcat: true },
+                        { name: "BS Business Information Tech (BBIT)", cutoff: 81.50, cat: "business", isNonEcat: true },
+                        { name: "BS Accounting & Finance", cutoff: 82.80, cat: "business", isNonEcat: true },
+                        { name: "BS Commerce (Morning)", cutoff: 78.50, cat: "business", isNonEcat: true },
+                        { name: "BS Banking & Finance", cutoff: 77.20, cat: "business", isNonEcat: true },
+                        { name: "BBA Honors (Self-Supporting)", cutoff: 77.80, cat: "business", isNonEcat: true }
+                    ],
+                    "⚙️ Engineering & Tech (FET)": [
+                        { name: "B.Sc Chemical Engineering", cutoff: 75.20, cat: "engineering", isNonEcat: false },
+                        { name: "B.Sc Electrical Engineering", cutoff: 76.80, cat: "engineering", isNonEcat: false },
+                        { name: "B.Sc Metallurgy & Materials", cutoff: 70.40, cat: "engineering", isNonEcat: false },
+                        { name: "B.Sc Industrial Engineering", cutoff: 71.90, cat: "engineering", isNonEcat: false },
+                        { name: "BS Polymer Engineering", cutoff: 69.80, cat: "engineering", isNonEcat: false }
+                    ],
+                    "💊 Health & Life Sciences": [
+                        { name: "Doctor of Pharmacy (Pharm-D)", cutoff: 89.20, cat: "medical", isNonEcat: false },
+                        { name: "Doctor of Physical Therapy (DPT)", cutoff: 85.60, cat: "medical", isNonEcat: false },
+                        { name: "BS Biotechnology", cutoff: 84.10, cat: "medical", isNonEcat: false },
+                        { name: "BS Biochemistry", cutoff: 82.40, cat: "medical", isNonEcat: false },
+                        { name: "BS Microbiology (MMG)", cutoff: 81.00, cat: "medical", isNonEcat: false },
+                        { name: "BS Food Science & Tech", cutoff: 79.50, cat: "medical", isNonEcat: false }
+                    ],
+                    "🔬 Natural Sciences, Law & Social Sciences": [
+                        { name: "BS Physics", cutoff: 76.50, cat: "business", isNonEcat: true },
+                        { name: "BS Mathematics", cutoff: 75.20, cat: "business", isNonEcat: true },
+                        { name: "BS Chemistry", cutoff: 78.40, cat: "business", isNonEcat: true },
+                        { name: "BS Applied Psychology", cutoff: 80.10, cat: "business", isNonEcat: true },
+                        { name: "BS Economics", cutoff: 79.30, cat: "business", isNonEcat: true },
+                        { name: "BS Mass Communication", cutoff: 76.80, cat: "business", isNonEcat: true },
+                        { name: "LLB 5-Years (Law)", cutoff: 81.20, cat: "business", isNonEcat: true }
+                    ]
+                }
+            },
             uet: {
                 testName: "ECAT Test Score", total: 400,
                 formulas: {
-                    computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
-                    engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } },
-                    business: { heading: "UET Non-ECAT Official Formula (30% Matric, 70% Inter)", calc: function(m, i, t){ return (m * 30) + (i * 70); } },
-                    medical: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(m, i, t){ return (m * 17) + (i * 50) + (t * 33); } }
+                    computing: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*17) + ((iObt/iTot)*50) + ((tObt/tTot)*33); } },
+                    engineering: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*17) + ((iObt/iTot)*50) + ((tObt/tTot)*33); } },
+                    business: { heading: "UET Non-ECAT Official Formula (30% Matric, 70% Inter)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*30) + ((iObt/iTot)*70); } },
+                    medical: { heading: "UET Official Formula (17% Matric, 50% FSc, 33% ECAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*17) + ((iObt/iTot)*50) + ((tObt/tTot)*33); } }
                 },
                 campuses: {
                     "Lahore (Main Campus)": [
@@ -1088,72 +1163,36 @@
             nust: {
                 testName: "NET Exam Score", total: 200,
                 formulas: {
-                    computing: { heading: "NUST Official Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
-                    engineering: { heading: "NUST Official Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } },
-                    business: { heading: "NUST Business / Social Criteria (25% Matric, 75% NET)", calc: function(m, i, t){ return (m * 25) + (i * 0) + (t * 75); } },
-                    medical: { heading: "NUST Biosciences Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(m, i, t){ return (m * 15) + (i * 10) + (t * 75); } }
+                    computing: { heading: "NUST Official Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*15) + ((iObt/iTot)*10) + ((tObt/tTot)*75); } },
+                    engineering: { heading: "NUST Official Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*15) + ((iObt/iTot)*10) + ((tObt/tTot)*75); } },
+                    business: { heading: "NUST Business / Social Criteria (25% Matric, 75% NET)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*25) + ((tObt/tTot)*75); } },
+                    medical: { heading: "NUST Biosciences Criteria (15% Matric, 10% Inter, 75% NET)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*15) + ((iObt/iTot)*10) + ((tObt/tTot)*75); } }
                 },
                 campuses: {
                     "💻 Computing & IT Streams (SEECS)": [
                         { name: "BS Computer Science", cutoff: 82.20, cat: "computing", isNonEcat: false }, 
                         { name: "BS Artificial Intelligence", cutoff: 81.10, cat: "computing", isNonEcat: false }, 
                         { name: "BS Data Science", cutoff: 80.30, cat: "computing", isNonEcat: false }, 
-                        { name: "BS Bioinformatics", cutoff: 73.80, cat: "computing", isNonEcat: false }, 
-                        { name: "BE Software Engineering", cutoff: 81.50, cat: "computing", isNonEcat: false }, 
-                        { name: "BE Information Security", cutoff: 78.90, cat: "computing", isNonEcat: false }
+                        { name: "BE Software Engineering", cutoff: 81.50, cat: "computing", isNonEcat: false }
                     ],
-                    "⚙️ Engineering Streams (SMME, NICE, SCME, IESE, IGIS)": [
+                    "⚙️ Engineering Streams (SMME, NICE, SCME)": [
                         { name: "BE Electrical Engineering", cutoff: 74.20, cat: "engineering", isNonEcat: false }, 
                         { name: "BE Mechanical Engineering", cutoff: 73.50, cat: "engineering", isNonEcat: false }, 
-                        { name: "BE Civil Engineering", cutoff: 69.80, cat: "engineering", isNonEcat: false },
-                        { name: "BE Chemical Engineering", cutoff: 68.50, cat: "engineering", isNonEcat: false },
-                        { name: "BE Environmental Engineering", cutoff: 67.20, cat: "engineering", isNonEcat: false },
-                        { name: "BE Mechatronics Engineering", cutoff: 74.80, cat: "engineering", isNonEcat: false },
-                        { name: "BE Geoinformatics Engineering", cutoff: 66.90, cat: "engineering", isNonEcat: false },
-                        { name: "BE Metallurgy & Materials Engineering", cutoff: 67.80, cat: "engineering", isNonEcat: false },
-                        { name: "BE Naval Architecture", cutoff: 68.20, cat: "engineering", isNonEcat: false }
-                    ],
-                    "🚢 Maritime Sciences": [
-                        { name: "BS Maritime Sciences", cutoff: 66.50, cat: "engineering", isNonEcat: false }
+                        { name: "BE Civil Engineering", cutoff: 69.80, cat: "engineering", isNonEcat: false }
                     ],
                     "📊 Business & Management (NBS)": [
                         { name: "BBA (Bachelor of Business Administration)", cutoff: 78.80, cat: "business", isNonEcat: true },
-                        { name: "BS Accounting & Finance", cutoff: 78.10, cat: "business", isNonEcat: true },
-                        { name: "BS Tourism & Hospitality Management", cutoff: 70.50, cat: "business", isNonEcat: true }
-                    ],
-                    "📚 Social Sciences, Humanities & Law (S3H)": [
-                        { name: "BS Economics", cutoff: 73.80, cat: "business", isNonEcat: true },
-                        { name: "BS Psychology", cutoff: 75.20, cat: "business", isNonEcat: true },
-                        { name: "BS Mass Communication", cutoff: 72.50, cat: "business", isNonEcat: true },
-                        { name: "BS Liberal Arts & Humanities", cutoff: 69.10, cat: "business", isNonEcat: true },
-                        { name: "Bachelor of Public Administration (BPA)", cutoff: 71.30, cat: "business", isNonEcat: true },
-                        { name: "Bachelor of Military Art & Science (BMAS)", cutoff: 67.80, cat: "business", isNonEcat: true },
-                        { name: "LLB (Bachelor of Laws)", cutoff: 75.50, cat: "business", isNonEcat: true }
-                    ],
-                    "🎨 Architecture & Design (SADA)": [
-                        { name: "Bachelor of Architecture (B.Arch)", cutoff: 77.80, cat: "engineering", isNonEcat: false },
-                        { name: "Bachelor of Industrial Design (BID)", cutoff: 72.80, cat: "engineering", isNonEcat: false }
-                    ],
-                    "🧬 Biosciences & Agriculture (ASAB)": [
-                        { name: "BS Biotechnology", cutoff: 77.20, cat: "medical", isNonEcat: false },
-                        { name: "BS Food Science & Technology", cutoff: 72.50, cat: "medical", isNonEcat: false },
-                        { name: "BS Agriculture", cutoff: 68.80, cat: "medical", isNonEcat: false },
-                        { name: "BS Environmental Science", cutoff: 69.50, cat: "medical", isNonEcat: false }
-                    ],
-                    "🔬 Natural Sciences (SNS)": [
-                        { name: "BS Mathematics", cutoff: 71.80, cat: "business", isNonEcat: true },
-                        { name: "BS Physics", cutoff: 71.10, cat: "business", isNonEcat: true },
-                        { name: "BS Chemistry", cutoff: 69.40, cat: "business", isNonEcat: true }
+                        { name: "BS Accounting & Finance", cutoff: 78.10, cat: "business", isNonEcat: true }
                     ]
                 }
             },
             fast: {
                 testName: "NU Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 15) + (i * 35) + (t * 50); } },
-                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } },
-                    medical: { heading: "FAST Standard Criteria (10% Matric, 40% Inter, 50% Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "FAST Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "FAST Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*15) + ((iObt/iTot)*35) + ((tObt/tTot)*50); } },
+                    business: { heading: "FAST Business Formula (50% Inter, 50% NU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((iObt/iTot)*50) + ((tObt/tTot)*50); } },
+                    medical: { heading: "FAST Standard Criteria (10% Matric, 40% Inter, 50% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Lahore Campus": [
@@ -1167,26 +1206,25 @@
             fastkhi: {
                 testName: "NU Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "FAST Karachi Computing Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "FAST Karachi Engineering Formula (15% Matric, 35% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 15) + (i * 35) + (t * 50); } },
-                    business: { heading: "FAST Karachi Business Formula (50% Inter, 50% NU Test)", calc: function(m, i, t){ return (m * 0) + (i * 50) + (t * 50); } },
-                    medical: { heading: "FAST Karachi Standard Criteria", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "FAST Karachi Formula (10% Matric, 40% Inter, 50% NU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "FAST Karachi Engineering (15% Matric, 35% Inter, 50% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*15) + ((iObt/iTot)*35) + ((tObt/tTot)*50); } },
+                    business: { heading: "FAST Karachi Business (50% Inter, 50% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((iObt/iTot)*50) + ((tObt/tTot)*50); } },
+                    medical: { heading: "FAST Karachi Standard Criteria", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Karachi Main Campus": [
                         { name: "Computer Science (BS CS)", cutoff: 73.80, cat: "computing", isNonEcat: false }, 
-                        { name: "Software Engineering (BS SE)", cutoff: 72.40, cat: "computing", isNonEcat: false }, 
-                        { name: "Business Analytics (BS BA)", cutoff: 66.80, cat: "business", isNonEcat: false }
+                        { name: "Software Engineering (BS SE)", cutoff: 72.40, cat: "computing", isNonEcat: false }
                     ]
                 }
             },
             lums: {
                 testName: "SAT / LCAT Score", total: 1600,
                 formulas: {
-                    computing: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
-                    engineering: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
-                    business: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } },
-                    medical: { heading: "LUMS Applied Sciences (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(m, i, t){ return (m * 30) + (i * 30) + (t * 40); } }
+                    computing: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*30) + ((iObt/iTot)*30) + ((tObt/tTot)*40); } },
+                    engineering: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*30) + ((iObt/iTot)*30) + ((tObt/tTot)*40); } },
+                    business: { heading: "LUMS Assessment Model (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*30) + ((iObt/iTot)*30) + ((tObt/tTot)*40); } },
+                    medical: { heading: "LUMS Applied Sciences (30% Matric, 30% Inter, 40% SAT/LCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*30) + ((iObt/iTot)*30) + ((tObt/tTot)*40); } }
                 },
                 campuses: {
                     "Lahore Campus (DHA)": [
@@ -1198,10 +1236,10 @@
             giki: {
                 testName: "GIKI Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
-                    engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
-                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } },
-                    medical: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(m, i, t){ return (m * 10) + (i * 50) + (t * 40); } }
+                    computing: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*50) + ((tObt/tTot)*40); } },
+                    engineering: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*50) + ((tObt/tTot)*40); } },
+                    business: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*50) + ((tObt/tTot)*40); } },
+                    medical: { heading: "GIKI Criteria (10% Matric, 50% Inter, 40% Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*50) + ((tObt/tTot)*40); } }
                 },
                 campuses: {
                     "Swabi Main Campus": [
@@ -1213,10 +1251,10 @@
             comsats: {
                 testName: "NTS NAT Score", total: 100,
                 formulas: {
-                    computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    medical: { heading: "COMSATS Pharmacy/Bio (10% Matric, 40% Inter, 50% NAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    business: { heading: "COMSATS Formula (10% Matric, 40% Inter, 50% NAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    medical: { heading: "COMSATS Pharmacy/Bio (10% Matric, 40% Inter, 50% NAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Islamabad Campus": [
@@ -1225,28 +1263,13 @@
                     ]
                 }
             },
-            pu: {
-                testName: "PU Entry Test Score", total: 100,
-                formulas: {
-                    computing: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
-                    engineering: { heading: "PU Formula Layout (25% Matric, 55% Inter, 20% PU Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } },
-                    business: { heading: "PU Business Formula (25% Matric, 75% Inter)", calc: function(m, i, t){ return (m * 25) + (i * 75); } },
-                    medical: { heading: "PU Medical/Pharm-D Formula (25% Matric, 55% Inter, 20% Test)", calc: function(m, i, t){ return (m * 25) + (i * 55) + (t * 20); } }
-                },
-                campuses: {
-                    "Lahore (Main Campus)": [
-                        { name: "BS Computer Science (PUCIT)", cutoff: 89.20, cat: "computing", isNonEcat: false }, 
-                        { name: "BBA Honors", cutoff: 83.20, cat: "business", isNonEcat: true }
-                    ]
-                }
-            },
             uhs: {
                 testName: "MDCAT Score", total: 200,
                 formulas: {
-                    computing: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    business: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    medical: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    business: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    medical: { heading: "PMDC Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Top Medical Colleges (Punjab)": [
@@ -1258,10 +1281,10 @@
             nums: {
                 testName: "NUMS Entry Test Score", total: 150,
                 formulas: {
-                    computing: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    business: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    medical: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    business: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    medical: { heading: "NUMS Official Criteria (10% Matric, 40% Inter, 50% NUMS Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Rawalpindi & Military Colleges": [
@@ -1272,10 +1295,10 @@
             dow: {
                 testName: "MDCAT Sindh Score", total: 200,
                 formulas: {
-                    computing: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    engineering: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    business: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } },
-                    medical: { heading: "PMDC / Sindh Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(m, i, t){ return (m * 10) + (i * 40) + (t * 50); } }
+                    computing: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    business: { heading: "Sindh Medical Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } },
+                    medical: { heading: "PMDC / Sindh Official Formula (10% Matric, 40% Inter, 50% MDCAT)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*10) + ((iObt/iTot)*40) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Karachi Campuses": [
@@ -1286,10 +1309,10 @@
             aku: {
                 testName: "AKU Entry Test Score", total: 100,
                 formulas: {
-                    computing: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
-                    engineering: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
-                    business: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } },
-                    medical: { heading: "AKU Selection Assessment (20% Matric, 30% Inter, 50% AKU Test)", calc: function(m, i, t){ return (m * 20) + (i * 30) + (t * 50); } }
+                    computing: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*20) + ((iObt/iTot)*30) + ((tObt/tTot)*50); } },
+                    engineering: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*20) + ((iObt/iTot)*30) + ((tObt/tTot)*50); } },
+                    business: { heading: "AKU Assessment Model (20% Matric, 30% Inter, 50% AKU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*20) + ((iObt/iTot)*30) + ((tObt/tTot)*50); } },
+                    medical: { heading: "AKU Selection Assessment (20% Matric, 30% Inter, 50% AKU Test)", calc: function(mObt, mTot, iObt, iTot, tObt, tTot){ return ((mObt/mTot)*20) + ((iObt/iTot)*30) + ((tObt/tTot)*50); } }
                 },
                 campuses: {
                     "Aga Khan University Karachi": [
@@ -1299,7 +1322,7 @@
             }
         };
 
-        let currentUni = "uet";
+        let currentUni = "pu";
         let tempRecommendedStream = "computing";
         let activeVisitorName = "Anonymous User";
         let activeVisitorWhatsapp = "Not Provided";
@@ -1355,10 +1378,10 @@
                 document.getElementById('tTot').value = selected.total;
                 document.getElementById('reportSection').classList.remove('visible');
 
-                if(currentCat === 'business' && currentUni === 'uet') {
+                if((currentCat === 'business' && (currentUni === 'uet' || currentUni === 'pu'))) {
                     tObtInput.value = "";
                     tObtInput.disabled = true;
-                    tObtInput.placeholder = "Not Required (Non-ECAT)";
+                    tObtInput.placeholder = "Not Required (Non-Test)";
                 } else {
                     tObtInput.disabled = false;
                     tObtInput.placeholder = "Obtained";
@@ -1532,12 +1555,8 @@
             const tTot = parseFloat(document.getElementById('tTot').value);
             const currentCat = document.getElementById('programCategory').value;
 
-            let mRatio = mObt / mTot; if (mRatio > 1) mRatio = 1;
-            let iRatio = iObt / iTot; if (iRatio > 1) iRatio = 1;
-            let tRatio = tObt / tTot; if (tRatio > 1) tRatio = 1;
-
-            const standardAggregate = database[currentUni].formulas[currentCat].calc(mRatio, iRatio, tRatio);
-            const nonEcatAggregate = (mRatio * 30) + (iRatio * 70);
+            const standardAggregate = database[currentUni].formulas[currentCat].calc(mObt, mTot, iObt, iTot, tObt, tTot);
+            const nonEcatAggregate = (mObt / mTot * 25) + (iObt / iTot * 75);
             
             document.getElementById('computedScore').textContent = `${standardAggregate.toFixed(2)}%`;
             document.getElementById('targetUniLabel').textContent = `${currentUni.toUpperCase()} OFFICIAL CALCULATOR`;
@@ -1554,7 +1573,7 @@
             for (const campusName in uniCampuses) {
                 let campusHTML = `<div class="city-group-container"><div class="city-header">${campusName}</div><div class="fields-list-grid">`;
                 uniCampuses[campusName].forEach(prog => {
-                    const applicableAggregate = (prog.isNonEcat && currentUni === 'uet') ? nonEcatAggregate : standardAggregate;
+                    const applicableAggregate = (prog.isNonEcat && (currentUni === 'uet' || currentUni === 'pu')) ? nonEcatAggregate : standardAggregate;
                     
                     let badgeClass = ""; let badgeText = "";
                     const margin = applicableAggregate - prog.cutoff;
@@ -1564,7 +1583,7 @@
 
                     const isStreamMatch = prog.cat === currentCat;
                     const opacityStyle = isStreamMatch ? "" : "opacity: 0.55; background: rgba(0,0,0,0.015);";
-                    const matchTag = prog.isNonEcat ? "⚡ Non-ECAT (30/70)" : (isStreamMatch ? "⚡ Match" : "Other Field");
+                    const matchTag = prog.isNonEcat ? "⚡ Non-Test (Academic)" : (isStreamMatch ? "⚡ Match" : "Other Field");
 
                     campusHTML += `<div class="field-row" style="${opacityStyle}"><div class="field-info"><span class="field-name" style="font-weight:700;">${prog.name} <span style="font-size:0.75rem; font-weight:700; color:var(--mint-700);">(${matchTag})</span></span><br><span class="field-cutoff" style="font-size:0.82rem; color:var(--text-secondary); font-weight:500;">Closing Threshold: ~${prog.cutoff}%</span></div><span class="badge ${badgeClass}">${badgeText}</span></div>`;
                 });
